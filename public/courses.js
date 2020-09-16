@@ -122,6 +122,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -130,10 +150,39 @@ __webpack_require__.r(__webpack_exports__);
     pr_statment: _pr_statment_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     pr_module: _pr_module_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  methods: {},
   data: function data() {
     return {
+      sections: [{
+        title: 'Basic Product Manager Skills',
+        lessons: ['Who is a Product Manager? Product Manager skills and traits', 'Immersion into an existing product', 'Product Team processes and working with the Engineering Team', 'Mockups and User-research', 'Prioritization', 'Strategy and global view of the product', 'Applied analytics', 'A/B testing', 'Growth Hacking', 'Mock interview', 'Unit Economics'],
+        comment: '',
+        status: 'false'
+      }, {
+        title: 'Skills for Mid-level Product Manager',
+        lessons: ['Product Manager Soft Skills', 'Product Manager Documents', 'Differences in working with B2B- and B2C-products', 'How to quickly form hypotheses and determine the MVP', 'Offline Business Digitalization', 'Making the case for your project', 'Subcontractors', 'Growth hacking', 'Reboots / Overhauls', 'Job Interview', 'Conclusion / Final'],
+        comment: '',
+        status: 'false'
+      }, {
+        title: 'Mobile Products',
+        lessons: ['Designing a mobile application', 'How to onboard new users', 'Setting up mobile analytics and conducting A/B testing', 'Prototyping a mobile application', 'Under the hood of mobile applications', 'How to promote a mobile app to an existing audience', 'Appstore and Google Play Store Secrets. What you need to know about these platforms', 'Mobile App Promotion / Marketing + Conclusion / Final'],
+        comment: '',
+        status: 'false'
+      }, {
+        title: 'Product Manager Level-up',
+        lessons: ['Product Managers\' Common Mistakes', 'Product Vision', 'OKR and Planning', 'Working with a Remote Team', 'International Products', 'Monetization', 'Working with budgets', 'Hiring a team', 'Competitor Analysis', 'Market Size and Share Evaluation', 'AI Product Management'],
+        comment: '',
+        status: 'false'
+      }, {
+        title: 'Thesis (Graduation project) and Employment Assistance',
+        lessons: ['Resume preparation', 'Preparing for a job interview', 'Final review and advice'],
+        comment: '',
+        status: 'false'
+      }],
       course: {
-        title: 'User Management App like ManageMe Course',
+        title: 'Online Product Management Course',
+        description: 'Enrolling in this course, you will be able to learn the profession of Product Manager from the ground up and analyze all the specifics and tools of this profession in detail – from User-research and Prioritization to OKR and Unit Economics',
+        url: 'https://www.dl.dropboxusercontent.com/s/5f828j7cioyms42/ps1.mp4?dl=0',
         lessons: [{
           'duration': '2 min',
           'topic': 'Introduction',
@@ -265,7 +314,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         img: 'image02.jpeg',
         title: 'What are the requirements:',
-        agenda: ['Thirst for knowledge', 'Laptop or desktop with Internet', 'Account at Bubble']
+        agenda: ['Thirst for knowledge', 'Laptop or desktop with Internet access', 'Account at Bubble']
       }, {
         img: 'image03.jpeg',
         title: 'What you\'ll learn:',
@@ -318,16 +367,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "section",
-    { staticClass: "text-gray-700 body-font overflow-hidden" },
+    { staticClass: "text-gray-700 overflow-hidden" },
     [
-      _c("div", { staticClass: "px-5 py-8 my-12 bg-gray-100" }, [
+      _c("div", { staticClass: "px-5 py-8 my-6 bg-gray-100" }, [
         _c(
           "div",
           { staticClass: "container mx-auto lg:w-4/5 mx-auto flex flex-wrap" },
           [
             _c(
               "section",
-              { staticClass: "lg:w-1/2 w-full lg:pr-4 lg:py-6 mb-6 lg:mb-0" },
+              { staticClass: "lg:w-3/5 w-full lg:pr-4 lg:py-6 mb-6 lg:mb-0" },
               [
                 _c(
                   "h6",
@@ -353,10 +402,8 @@ var render = function() {
                   [_vm._v(_vm._s(_vm.course.title))]
                 ),
                 _vm._v(" "),
-                _c("p", { staticClass: "leading-relaxed mb-8" }, [
-                  _vm._v(
-                    "Integral to all apps, user management is important to get right. In this course we cover sign up/login, user roles and create an admin dashboard."
-                  )
+                _c("p", { staticClass: "leading-relaxed mb-8 pr-24" }, [
+                  _vm._v(_vm._s(_vm.course.description))
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "flex items-center mt-2" }, [
@@ -381,7 +428,7 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("span", { staticClass: "ml-2 text-xs text-gray700" }, [
-                    _vm._v(_vm._s(_vm.course.lessons.length) + " lessons")
+                    _vm._v("50 lessons")
                   ])
                 ]),
                 _vm._v(" "),
@@ -434,8 +481,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", { staticClass: "ml-2 text-xs text-gray700" }, [
                     _vm._v(
-                      _vm._s(_vm.course.students) +
-                        " students enrolled in this course"
+                      "2000 students enrolled this course all over the world"
                     )
                   ])
                 ])
@@ -446,21 +492,21 @@ var render = function() {
               "section",
               {
                 staticClass:
-                  "lg:w-1/2 sm:w-full mx-auto h-auto lg:py-6 mb-6 lg:mb-0"
+                  "lg:w-2/5 sm:w-full mx-auto h-auto lg:py-6 mb-6 lg:mb-0"
               },
               [
-                _c("iframe", {
-                  staticClass: "container p-2 mx-auto",
-                  attrs: {
-                    width: "560",
-                    height: "315",
-                    src: "https://www.youtube.com/embed/_ZW5B6nZ8Xw",
-                    frameborder: "0",
-                    allow:
-                      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-                    allowfullscreen: ""
-                  }
-                }),
+                _c(
+                  "video",
+                  {
+                    staticClass: "mx-auto",
+                    attrs: { controls: "controls", height: "480", width: "640" }
+                  },
+                  [
+                    _c("source", {
+                      attrs: { src: _vm.course.url, type: "video/mp4" }
+                    })
+                  ]
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "flex mt-4 justify-center" }, [
                   _c(
@@ -526,9 +572,119 @@ var render = function() {
                   _vm._v("Course content:")
                 ]),
                 _vm._v(" "),
+                _vm._l(_vm.sections, function(item) {
+                  return _c("div", [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "mb-6 bg-white p-4 rounded border border-indigo-200 sh",
+                        staticStyle: {
+                          "box-shadow": "rgb(67 110 167 / 9%) 4px 7px 13px 1px"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "flex items-center ",
+                            class: item.status ? "" : "mb-3",
+                            on: {
+                              click: function($event) {
+                                item.status = !item.status
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                staticClass:
+                                  "fill-current text-gray-400 h-3 w-3 mx-3",
+                                attrs: {
+                                  viewBox: "0 0 16 16",
+                                  fill: "none",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: item.status,
+                                      expression: "item.status"
+                                    }
+                                  ],
+                                  attrs: {
+                                    d:
+                                      "M14.545 6.495H9.508V1.458c0-1.943-3.013-1.943-3.013 0v5.037H1.458c-1.942 0-1.942 3.013 0 3.013h5.037v5.037c0 1.943 3.013 1.943 3.013 0V9.508h5.037c1.942 0 1.942-3.013 0-3.013z"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("path", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: !item.status,
+                                      expression: "!item.status"
+                                    }
+                                  ],
+                                  attrs: {
+                                    d:
+                                      "M13.694 11.563L10.13 8.001l3.563-3.562c1.373-1.373-.757-3.504-2.13-2.13L8 5.871 4.44 2.309C3.066.936.936 3.066 2.31 4.439l3.562 3.562-3.562 3.562c-1.373 1.374.757 3.504 2.13 2.13l3.562-3.562 3.562 3.562c1.374 1.374 3.504-.756 2.13-2.13z"
+                                  }
+                                }),
+                                _c("defs", [
+                                  _c("clipPath", { attrs: { id: "clip0" } }, [
+                                    _c("path", {
+                                      attrs: {
+                                        fill: "#fff",
+                                        d: "M0 0h16v16H0z"
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "h2",
+                              { staticClass: "text-lg text-gray-800 ml-2" },
+                              [_vm._v(_vm._s(item.title))]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(item.lessons, function(i) {
+                          return _c(
+                            "ul",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: !item.status,
+                                  expression: "!item.status"
+                                }
+                              ],
+                              staticClass:
+                                "mt-1 pl-16 text-xs text-gray-600 list-disc "
+                            },
+                            [_c("li", [_vm._v(_vm._s(i))])]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                }),
+                _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "text-sm bg-white rounded shadow p-6" },
+                  { staticClass: "text-sm bg-white rounded shadow p-6 hidden" },
                   _vm._l(_vm.course.lessons, function(i) {
                     return _c(
                       "div",
@@ -567,7 +723,8 @@ var render = function() {
                   }),
                   0
                 )
-              ]
+              ],
+              2
             ),
             _vm._v(" "),
             _vm._m(0)
@@ -823,16 +980,15 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("section", { staticClass: "container lg:w-4/5 w-full mx-auto" }, [
+    _c("section", { staticClass: "container lg:w-3/5 w-full mx-auto" }, [
       _c(
         "div",
-        { staticClass: "lg:flex inline-block mx-auto" },
+        { staticClass: "lg:flex inline-block mx-6 " },
         _vm._l(_vm.cards, function(item) {
           return _c(
             "div",
             {
-              staticClass:
-                "container flex flex-col lg:w-1/3 md:w-2/3 w-5/6 mx-auto m-4 px-8"
+              staticClass: "flex flex-col lg:w-1/3 md:w-2/3 w-5/6  mx-2 px-6 "
             },
             [
               _c("img", {
@@ -840,13 +996,13 @@ var render = function() {
                 attrs: { src: "/img/" + item.img, alt: "" }
               }),
               _vm._v(" "),
-              _c("div", { staticClass: "text-center my-2" }, [
+              _c("div", { staticClass: "text-center my-4 font-medium" }, [
                 _vm._v(_vm._s(item.title))
               ]),
               _vm._v(" "),
               _vm._l(item.agenda, function(i) {
-                return _c("ul", { staticClass: "text-left " }, [
-                  _c("li", { staticClass: "list-disc text-xs text-gray-700" }, [
+                return _c("ul", { staticClass: "text-left px-4 mb-1" }, [
+                  _c("li", { staticClass: "list-disc text-sm text-gray-700" }, [
                     _vm._v(_vm._s(i))
                   ])
                 ])
