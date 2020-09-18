@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<section class="container lg:w-3/5 w-full mx-auto">
-			<div class="lg:flex inline-block mx-6 ">
-				<div class="flex flex-col lg:w-1/3 md:w-2/3 w-5/6  mx-2 px-6 " v-for="item in cards">
+		<section class="">
+			<div class="md:flex md:w-4/5 sm:w-full sm:block mx-auto">
+				<div class="flex flex-col md:w-1/3 sm:w-2/3 mx-auto mt-6 bg-green-300 mx-1" v-for="item in cards">
 					<img :src="'/img/'+item.img" alt="" class="w-48 h-48 mx-auto">
 					<div class="text-center my-4 font-medium">{{item.title}}</div>
-					<ul v-for="i in item.agenda" class="text-left px-4 mb-1">
-						<li class="list-disc text-sm text-gray-700">{{i}}</li>
+					<ul v-for="i in item.agenda" class="mb-1">
+						<li class="md:text-left sm:text-center list-disc text-sm text-gray-700">{{i}}</li>
 					</ul>
 				</div>
 			</div>

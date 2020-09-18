@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<pr_enroll></pr_enroll>
+		<pr_enroll class="absolute"></pr_enroll>
 	</div>
 </template>
 <script>

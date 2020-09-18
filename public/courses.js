@@ -142,6 +142,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -341,7 +342,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("pr_enroll")], 1)
+  return _c("div", [_c("pr_enroll", { staticClass: "absolute" })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -369,14 +370,17 @@ var render = function() {
     "section",
     { staticClass: "text-gray-700 overflow-hidden" },
     [
-      _c("div", { staticClass: "px-5 py-8 my-6 bg-gray-100" }, [
+      _c("div", { staticClass: "px-8 py-8 my-6 bg-gray-100" }, [
         _c(
           "div",
           { staticClass: "container mx-auto lg:w-4/5 mx-auto flex flex-wrap" },
           [
             _c(
               "section",
-              { staticClass: "lg:w-3/5 w-full lg:pr-4 lg:py-6 mb-6 lg:mb-0" },
+              {
+                staticClass:
+                  "lg:w-3/5 w-full lg:pr-4 lg:py-6 md:px-8 sm:px-1 mb-6 lg:mb-0"
+              },
               [
                 _c(
                   "h6",
@@ -492,7 +496,7 @@ var render = function() {
               "section",
               {
                 staticClass:
-                  "lg:w-2/5 sm:w-full mx-auto h-auto lg:py-6 mb-6 lg:mb-0"
+                  "lg:w-2/5 sm:w-full mx-auto h-auto lg:py-6 md:py-2 py-1 mb-6 lg:mb-0"
               },
               [
                 _c(
@@ -501,14 +505,10 @@ var render = function() {
                     staticClass: "mx-auto",
                     attrs: { controls: "controls", height: "480", width: "640" }
                   },
-                  [
-                    _c("source", {
-                      attrs: { src: _vm.course.url, type: "video/mp4" }
-                    })
-                  ]
+                  [_vm._v('"" type="video/mp4">')]
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "flex mt-4 justify-center" }, [
+                _c("div", { staticClass: "flex mt-8 justify-center" }, [
                   _c(
                     "button",
                     {
@@ -980,15 +980,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("section", { staticClass: "container lg:w-3/5 w-full mx-auto" }, [
+    _c("section", {}, [
       _c(
         "div",
-        { staticClass: "lg:flex inline-block mx-6 " },
+        { staticClass: "md:flex md:w-4/5 sm:w-full sm:block mx-auto" },
         _vm._l(_vm.cards, function(item) {
           return _c(
             "div",
             {
-              staticClass: "flex flex-col lg:w-1/3 md:w-2/3 w-5/6  mx-2 px-6 "
+              staticClass:
+                "flex flex-col md:w-1/3 sm:w-2/3 mx-auto mt-6 bg-green-300 mx-1"
             },
             [
               _c("img", {
@@ -1001,10 +1002,15 @@ var render = function() {
               ]),
               _vm._v(" "),
               _vm._l(item.agenda, function(i) {
-                return _c("ul", { staticClass: "text-left px-4 mb-1" }, [
-                  _c("li", { staticClass: "list-disc text-sm text-gray-700" }, [
-                    _vm._v(_vm._s(i))
-                  ])
+                return _c("ul", { staticClass: "mb-1" }, [
+                  _c(
+                    "li",
+                    {
+                      staticClass:
+                        "md:text-left sm:text-center list-disc text-sm text-gray-700"
+                    },
+                    [_vm._v(_vm._s(i))]
+                  )
                 ])
               })
             ],

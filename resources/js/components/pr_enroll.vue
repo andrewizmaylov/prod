@@ -1,8 +1,8 @@
 <template>
 	<section class="text-gray-700 overflow-hidden">
-		<div class="px-5 py-8 my-6 bg-gray-100">
+		<div class="px-8 py-8 my-6 bg-gray-100">
 			<div class="container mx-auto lg:w-4/5 mx-auto flex flex-wrap">
-				<section class="lg:w-3/5 w-full lg:pr-4 lg:py-6 mb-6 lg:mb-0">
+				<section class="lg:w-3/5 w-full lg:pr-4 lg:py-6 md:px-8 sm:px-1 mb-6 lg:mb-0">
 			        <h6 class="text-sm title-font text-gray-500 tracking-normal">
 			        	<router-link :to="{name: 'courses'}">Courses</router-link> > {{course.title}}
 			        </h6>
@@ -28,13 +28,14 @@
 		    	        <span class="ml-2 text-xs text-gray700">2000 students enrolled this course all over the world</span>
 		            </div>
 		        </section>
-		        <section class="lg:w-2/5 sm:w-full mx-auto h-auto lg:py-6 mb-6 lg:mb-0">
+		        <section class="lg:w-2/5 sm:w-full mx-auto h-auto lg:py-6 md:py-2 py-1 mb-6 lg:mb-0">
 		        	<video controls="controls" height="480" width="640" class="mx-auto">
-			        	<source :src="course.url" type="video/mp4"></source>
+			        	<!-- remove quotes from url -->
+			        	<source :src=""course.url"" type="video/mp4"></source>
 		        	</video>
 	
 				    
-			        <div class="flex mt-4 justify-center">
+			        <div class="flex mt-8 justify-center">
 						<button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Enroll Now</button>
 						<button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
 							<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
