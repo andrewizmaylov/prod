@@ -1,13 +1,13 @@
 <template>
-	<header class="relative">
+	<header class="">
 		<div class="container max-w-6xl mx-auto sm:px-12 px-6 flex pt-5 items-center justify-between">
-			<a class="flex items-center text-gray-800 mr-auto" href="https://productstar.org/">
+			<router-link class="flex items-center text-gray-800 mr-auto" href="https://productstar.org/">
 				<logo class="lg:block hidden"></logo>
-				<span class="lg:hidden block text-xl font-medium">Product Star</span>
-			</a>
+				<span class="lg:hidden block text-xl font-medium">Product Manager Courses</span>
+			</router-link>
 
 			<div class="lg:block hidden" v-for="item in menu">
-				<span class="mx-2 hover:text-gray-900" @click="navigateTo(item.name)">{{uppercased(item.name)}}</span>
+				<span class="mx-2 hover:text-gray-900" @click="navigateTo(item.name)">{{uppercased(item.menu_name)}}</span>
 			</div>
 
 			<svg class="lg:hidden block h-5 w-5 fill-current text-gray-700" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" @click="verticalBlock=!verticalBlock">
@@ -20,11 +20,7 @@
 				<button class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">Sign Up</button>
 			</div>
 		</div>
-		<div v-show="verticalBlock" class="absolute z-10 inset-0 mt-16 text-center flex flex-col">
-			<span @click="navigateTo(item.name)" v-for="item in menu" :key="item.id" class="py-3 h-72 text-sm hover:text-sm hover:text-gray-900" style="background: #ffffff">
-			<span class="border-b">{{'&nbsp'+uppercased(item.name)+'&nbsp'}}</span>
-			</span>
-		</div>
+
 	</header>
 </template>
 <script>
@@ -35,15 +31,11 @@
 		data() {
 			return {
 				menu: [
-					{name: 'courses'},
-					{name: 'products'},
-					{name: 'services'},
-					{name: 'community'},
-					{name: 'pricing'},
-					{name: 'deals'},
-					{name: 'affilate'},
+					{name: 'enroll', menu_name: 'Enroll Now'},
+					
+
 				],
-				verticalBlock: false,
+
 			}
 		},
 		methods: {
@@ -52,7 +44,7 @@
 			},
 			navigateTo(link) {
 				this.verticalBlock = false;
-				this.$router.push(link);
+				this.$router.push({name: link});
 			}
 		}
 	}

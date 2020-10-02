@@ -1,5 +1,5 @@
 <template>
-	<section class="text-gray-700 overflow-hidden">
+	<section class="text-gray-700 ">
 		<div class="px-8 py-8 my-6 bg-gray-100">
 			<div class="container mx-auto lg:w-4/5 mx-auto flex flex-wrap">
 				<section class="lg:w-3/5 w-full lg:pr-4 lg:py-6 md:px-8 sm:px-1 mb-6 lg:mb-0">
@@ -28,11 +28,17 @@
 		    	        <span class="ml-2 text-xs text-gray700">2000 students enrolled this course all over the world</span>
 		            </div>
 		        </section>
-		        <section class="lg:w-2/5 sm:w-full mx-auto h-auto lg:py-6 md:py-2 py-1 mb-6 lg:mb-0">
-		        	<video controls="controls" height="480" width="640" class="mx-auto">
-			        	<!-- remove quotes from url -->
+		        <section class="lg:w-2/5 md:w-2/3 sm:w-full mx-auto h-auto lg:py-6 md:py-2 py-1 mb-6 lg:mb-0">
+		        	<div class="relative bg-gray-400 pb-9/16 shadow-xl">
+		        		
+			        	
+		        		<iframe class="absolute w-full h-full" src="https://player.vimeo.com/video/463168822" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		        	</div>
+
+		        	<!-- <video controls="controls" height="480" width="640" class="mx-auto">
+			        	remove quotes from url
 			        	<source :src=""course.url"" type="video/mp4"></source>
-		        	</video>
+		        	</video> -->
 	
 				    
 			        <div class="flex mt-8 justify-center">
@@ -56,7 +62,7 @@
 					<span class="text-lg text-gray-800 my-4 pl-6">Course content:</span>
 
 					<div v-for="item in sections">
-						<div class="mb-6 bg-white p-4 rounded border border-indigo-200 sh" style="box-shadow: rgb(67 110 167 / 9%) 4px 7px 13px 1px;">
+						<div class="mb-6 bg-white p-4 rounded border border-indigo-200" style="box-shadow: rgb(67 110 167 / 9%) 4px 7px 13px 1px;">
 							<div class="flex items-center " :class="item.status ? '' : 'mb-3'  " @click="item.status=!item.status">
 								<svg class="fill-current text-gray-400 h-3 w-3 mx-3" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path v-show="item.status" d="M14.545 6.495H9.508V1.458c0-1.943-3.013-1.943-3.013 0v5.037H1.458c-1.942 0-1.942 3.013 0 3.013h5.037v5.037c0 1.943 3.013 1.943 3.013 0V9.508h5.037c1.942 0 1.942-3.013 0-3.013z" />
@@ -96,10 +102,10 @@
 		</div>
 
 		<!-- Related courses block -->
-		<div class="mx-6 mt-12">
-			<h2 class="text-lg text-gray-800 my-4 text-center">Related courses:</h2>
+		<div class="max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12">
+			<h2 class="text-2xl text-gray-800 mt-4 mb-8 text-center">Related courses:</h2>
 			<section class="flex flex-wrap -m-4">
-				<pr_module v-for="i in 9" :key="i" class="p-4 lg:w-1/3 md:w-1/2 sm:w-full mx-auto"></pr_module>
+				<pr_module v-for="i in modules" :key="i" :module="i" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto"></pr_module>
 			</section>
 		</div>
 	</section>
@@ -217,7 +223,39 @@
  					],
  					students: 241,
  					totaltime: 186
-				}
+				},
+				modules: [
+					{
+						img: '/img/module1.svg',
+						name: 'Basic Product Manager Skills',
+						description: 'Our course help you to start your successful career as a PM.',
+					},
+					{
+						img: '/img/module2.svg',
+						name: 'Skills for Mid-level Product Manager',
+						description: 'This course teach you the essential skills you need to ace your PM interview...',
+					},
+					{
+						img: '/img/module3.svg',
+						name: 'Mobile Product Managment',
+						description: 'Upgrade your Mobile PM skills today and stay ahead of the curve!',
+					},
+					{
+						img: '/img/module4.svg',
+						name: 'Product Manager Level-up',
+						description: 'This cours eis the best way to bring your PM skills to new heights!',
+					},
+					{
+						img: '/img/module5.svg',
+						name: 'Super power Skill, which not exists: ZeroCoding',
+						description: 'This course can help you to get your idea implemented immediately without developers and code!',
+					},
+					{
+						img: '/img/module6.svg',
+						name: 'A/B Testing skills',
+						description: 'This course will help you to bring your PM career to new heights.',
+					},
+				]
 			}
 		}
 	}

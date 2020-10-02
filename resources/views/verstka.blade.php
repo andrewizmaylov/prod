@@ -1,6 +1,6 @@
 @extends('layouts.prod')
 
 @section('content')
-    <router-view></router-view>
+    <router-view class="container max-w-6xl mx-auto "></router-view>
 
 @endsection

@@ -143,6 +143,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -227,7 +233,32 @@ __webpack_require__.r(__webpack_exports__);
         }],
         students: 241,
         totaltime: 186
-      }
+      },
+      modules: [{
+        img: '/img/module1.svg',
+        name: 'Basic Product Manager Skills',
+        description: 'Our course help you to start your successful career as a PM.'
+      }, {
+        img: '/img/module2.svg',
+        name: 'Skills for Mid-level Product Manager',
+        description: 'This course teach you the essential skills you need to ace your PM interview...'
+      }, {
+        img: '/img/module3.svg',
+        name: 'Mobile Product Managment',
+        description: 'Upgrade your Mobile PM skills today and stay ahead of the curve!'
+      }, {
+        img: '/img/module4.svg',
+        name: 'Product Manager Level-up',
+        description: 'This cours eis the best way to bring your PM skills to new heights!'
+      }, {
+        img: '/img/module5.svg',
+        name: 'Super power Skill, which not exists: ZeroCoding',
+        description: 'This course can help you to get your idea implemented immediately without developers and code!'
+      }, {
+        img: '/img/module6.svg',
+        name: 'A/B Testing skills',
+        description: 'This course will help you to bring your PM career to new heights.'
+      }]
     };
   }
 });
@@ -268,14 +299,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'pr_module'
+  name: 'pr_module',
+  props: ['module']
 });
 
 /***/ }),
@@ -289,6 +315,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -342,7 +370,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("pr_enroll", { staticClass: "absolute" })], 1)
+  return _c("div", [_c("pr_enroll", {})], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -368,7 +396,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "section",
-    { staticClass: "text-gray-700 overflow-hidden" },
+    { staticClass: "text-gray-700 " },
     [
       _c("div", { staticClass: "px-8 py-8 my-6 bg-gray-100" }, [
         _c(
@@ -496,17 +524,10 @@ var render = function() {
               "section",
               {
                 staticClass:
-                  "lg:w-2/5 sm:w-full mx-auto h-auto lg:py-6 md:py-2 py-1 mb-6 lg:mb-0"
+                  "lg:w-2/5 md:w-2/3 sm:w-full mx-auto h-auto lg:py-6 md:py-2 py-1 mb-6 lg:mb-0"
               },
               [
-                _c(
-                  "video",
-                  {
-                    staticClass: "mx-auto",
-                    attrs: { controls: "controls", height: "480", width: "640" }
-                  },
-                  [_vm._v('"" type="video/mp4">')]
-                ),
+                _vm._m(0),
                 _vm._v(" "),
                 _c("div", { staticClass: "flex mt-8 justify-center" }, [
                   _c(
@@ -578,7 +599,7 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "mb-6 bg-white p-4 rounded border border-indigo-200 sh",
+                          "mb-6 bg-white p-4 rounded border border-indigo-200",
                         staticStyle: {
                           "box-shadow": "rgb(67 110 167 / 9%) 4px 7px 13px 1px"
                         }
@@ -727,33 +748,61 @@ var render = function() {
               2
             ),
             _vm._v(" "),
-            _vm._m(0)
+            _vm._m(1)
           ]
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "mx-6 mt-12" }, [
-        _c("h2", { staticClass: "text-lg text-gray-800 my-4 text-center" }, [
-          _vm._v("Related courses:")
-        ]),
-        _vm._v(" "),
-        _c(
-          "section",
-          { staticClass: "flex flex-wrap -m-4" },
-          _vm._l(9, function(i) {
-            return _c("pr_module", {
-              key: i,
-              staticClass: "p-4 lg:w-1/3 md:w-1/2 sm:w-full mx-auto"
-            })
-          }),
-          1
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12" },
+        [
+          _c(
+            "h2",
+            { staticClass: "text-2xl text-gray-800 mt-4 mb-8 text-center" },
+            [_vm._v("Related courses:")]
+          ),
+          _vm._v(" "),
+          _c(
+            "section",
+            { staticClass: "flex flex-wrap -m-4" },
+            _vm._l(_vm.modules, function(i) {
+              return _c("pr_module", {
+                key: i,
+                staticClass: "p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto",
+                attrs: { module: i }
+              })
+            }),
+            1
+          )
+        ]
+      )
     ],
     1
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "relative bg-gray-400 pb-9/16 shadow-xl" },
+      [
+        _c("iframe", {
+          staticClass: "absolute w-full h-full",
+          attrs: {
+            src: "https://player.vimeo.com/video/463168822",
+            frameborder: "0",
+            allow:
+              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+            allowfullscreen: ""
+          }
+        })
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -822,39 +871,31 @@ var render = function() {
       "div",
       {
         staticClass:
-          "h-full border-2 border-gray-200 rounded-lg overflow-hidden"
+          "relative h-full rounded-lg overflow-hidden border border-indigo-200",
+        staticStyle: { "box-shadow": "rgb(67 110 167 / 9%) 4px 7px 13px 1px" }
       },
       [
         _c("img", {
           staticClass: "lg:h-48 md:h-36 w-full object-cover object-center",
-          attrs: { src: "https://dummyimage.com/720x400", alt: "blog" }
+          attrs: { src: _vm.module.img, alt: "blog" }
         }),
         _vm._v(" "),
-        _c("div", { staticClass: "p-6" }, [
-          _c(
-            "h2",
-            {
-              staticClass:
-                "tracking-widest text-xs title-font font-medium text-gray-500 mb-1"
-            },
-            [_vm._v("CATEGORY")]
-          ),
-          _vm._v(" "),
-          _c(
-            "h1",
-            {
-              staticClass: "title-font text-lg font-medium text-gray-900 mb-3"
-            },
-            [_vm._v("The Catalyzer")]
-          ),
-          _vm._v(" "),
-          _c("p", { staticClass: "leading-relaxed mb-3" }, [
-            _vm._v(
-              "Photo booth fam kinfolk cold-pressed sriracha leggings jianbing microdosing tousled waistcoat."
-            )
+        _c("div", { staticClass: "flex flex-col justify-around px-6" }, [
+          _c("div", { staticClass: "py-8 mb-8" }, [
+            _c(
+              "h1",
+              {
+                staticClass: "title-font text-lg font-medium text-gray-900 mb-3"
+              },
+              [_vm._v(_vm._s(_vm.module.name))]
+            ),
+            _vm._v(" "),
+            _c("p", { staticClass: "leading-relaxed mb-3" }, [
+              _vm._v(_vm._s(_vm.module.description))
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "flex items-center flex-wrap " }, [
+          _c("div", { staticClass: "absolute bottom-0 mt-4 mb-6" }, [
             _c(
               "a",
               {
@@ -862,7 +903,7 @@ var render = function() {
                   "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0"
               },
               [
-                _vm._v("Learn More\n                "),
+                _vm._v("Learn More\n\t\t            "),
                 _c(
                   "svg",
                   {
@@ -882,73 +923,6 @@ var render = function() {
                     _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
                   ]
                 )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "text-gray-600 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-300"
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "w-4 h-4 mr-1",
-                    attrs: {
-                      stroke: "currentColor",
-                      "stroke-width": "2",
-                      fill: "none",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
-                      viewBox: "0 0 24 24"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("circle", { attrs: { cx: "12", cy: "12", r: "3" } })
-                  ]
-                ),
-                _vm._v("1.2K\n              ")
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass:
-                  "text-gray-600 inline-flex items-center leading-none text-sm"
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "w-4 h-4 mr-1",
-                    attrs: {
-                      stroke: "currentColor",
-                      "stroke-width": "2",
-                      fill: "none",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
-                      viewBox: "0 0 24 24"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"
-                      }
-                    })
-                  ]
-                ),
-                _vm._v("6\n              ")
               ]
             )
           ])
@@ -987,10 +961,7 @@ var render = function() {
         _vm._l(_vm.cards, function(item) {
           return _c(
             "div",
-            {
-              staticClass:
-                "flex flex-col md:w-1/3 sm:w-2/3 mx-auto mt-6 bg-green-300 mx-1"
-            },
+            { staticClass: "flex flex-col md:w-1/3 sm:w-2/3 mx-auto mt-6" },
             [
               _c("img", {
                 staticClass: "w-48 h-48 mx-auto",
@@ -1001,20 +972,24 @@ var render = function() {
                 _vm._v(_vm._s(item.title))
               ]),
               _vm._v(" "),
-              _vm._l(item.agenda, function(i) {
-                return _c("ul", { staticClass: "mb-1" }, [
-                  _c(
-                    "li",
-                    {
-                      staticClass:
-                        "md:text-left sm:text-center list-disc text-sm text-gray-700"
-                    },
-                    [_vm._v(_vm._s(i))]
-                  )
-                ])
-              })
-            ],
-            2
+              _c("div", { staticClass: "mx-2" }, [
+                _c(
+                  "ul",
+                  { staticClass: "mb-1 px-4" },
+                  _vm._l(item.agenda, function(i) {
+                    return _c(
+                      "li",
+                      {
+                        staticClass:
+                          "md:text-left md:list-outside text-center list-inside list-disc text-sm text-gray-700"
+                      },
+                      [_vm._v(_vm._s(i))]
+                    )
+                  }),
+                  0
+                )
+              ])
+            ]
           )
         }),
         0

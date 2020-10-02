@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"courses":"courses","products":"products"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"courses":"courses","login":"login","products":"products"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2082,10 +2082,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_header',
@@ -2095,21 +2091,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       menu: [{
-        name: 'courses'
-      }, {
-        name: 'products'
-      }, {
-        name: 'services'
-      }, {
-        name: 'community'
-      }, {
-        name: 'pricing'
-      }, {
-        name: 'deals'
-      }, {
-        name: 'affilate'
-      }],
-      verticalBlock: false
+        name: 'enroll',
+        menu_name: 'Enroll Now'
+      }]
     };
   },
   methods: {
@@ -2118,7 +2102,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     navigateTo: function navigateTo(link) {
       this.verticalBlock = false;
-      this.$router.push(link);
+      this.$router.push({
+        name: link
+      });
     }
   }
 });
@@ -37754,7 +37740,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("header", { staticClass: "relative" }, [
+  return _c("header", {}, [
     _c(
       "div",
       {
@@ -37763,7 +37749,7 @@ var render = function() {
       },
       [
         _c(
-          "a",
+          "router-link",
           {
             staticClass: "flex items-center text-gray-800 mr-auto",
             attrs: { href: "https://productstar.org/" }
@@ -37772,7 +37758,7 @@ var render = function() {
             _c("logo", { staticClass: "lg:block hidden" }),
             _vm._v(" "),
             _c("span", { staticClass: "lg:hidden block text-xl font-medium" }, [
-              _vm._v("Product Star")
+              _vm._v("Product Manager Courses")
             ])
           ],
           1
@@ -37790,7 +37776,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v(_vm._s(_vm.uppercased(item.name)))]
+              [_vm._v(_vm._s(_vm.uppercased(item.menu_name)))]
             )
           ])
         }),
@@ -37848,42 +37834,6 @@ var render = function() {
         _vm._m(0)
       ],
       2
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.verticalBlock,
-            expression: "verticalBlock"
-          }
-        ],
-        staticClass: "absolute z-10 inset-0 mt-16 text-center flex flex-col"
-      },
-      _vm._l(_vm.menu, function(item) {
-        return _c(
-          "span",
-          {
-            key: item.id,
-            staticClass: "py-3 h-72 text-sm hover:text-sm hover:text-gray-900",
-            staticStyle: { background: "#ffffff" },
-            on: {
-              click: function($event) {
-                return _vm.navigateTo(item.name)
-              }
-            }
-          },
-          [
-            _c("span", { staticClass: "border-b" }, [
-              _vm._v(_vm._s(" " + _vm.uppercased(item.name) + " "))
-            ])
-          ]
-        )
-      }),
-      0
     )
   ])
 }
@@ -53517,7 +53467,17 @@ var routes = [{
   meta: {
     requiresAuth: false
   }
-}];
+}, {
+  path: '/login',
+  name: 'login',
+  component: function component() {
+    return __webpack_require__.e(/*! import() | login */ "login").then(__webpack_require__.bind(null, /*! ./components/login.vue */ "./resources/js/components/login.vue"));
+  },
+  meta: {
+    requiresAuth: false
+  }
+} // {path: '/register', name: 'register', component: () => import(/* webpackChunkName: "register"*/ "./components/register.vue"), meta: {requiresAuth: false} },
+];
 
 /***/ }),
 
