@@ -67,7 +67,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-full max-w-xs" }, [
+    return _c("div", { staticClass: "w-36" }, [
       _c(
         "form",
         { staticClass: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },

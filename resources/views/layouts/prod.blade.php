@@ -26,6 +26,7 @@
         <pr_header></pr_header>
         
         @yield('content')
+        <pr_footer></pr_footer>
     </div>
 </body>
 </html>

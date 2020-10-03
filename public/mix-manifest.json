@@ -3,5 +3,7 @@
     "/css/main.css": "/css/main.css",
     "/courses.js": "/courses.js",
     "/login.js": "/login.js",
-    "/products.js": "/products.js"
+    "/products.js": "/products.js",
+    "/vendors~courses.js": "/vendors~courses.js",
+    "/enroll.js": "/enroll.js"
 }
