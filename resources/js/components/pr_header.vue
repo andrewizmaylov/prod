@@ -16,7 +16,7 @@
 		data() {
 			return {
 				menu: [
-					{name: 'enroll', menu_name: 'Enroll Now'},
+					{name: 'describe', menu_name: 'Enroll Now'},
 				],
 			}
 		},

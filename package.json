@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "moment": "^2.29.0",
         "tailwindcss": "^1.8.10",
         "vue-router": "^3.4.3"
     }

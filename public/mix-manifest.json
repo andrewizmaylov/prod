@@ -2,8 +2,8 @@
     "/js/app.js": "/js/app.js",
     "/css/main.css": "/css/main.css",
     "/courses.js": "/courses.js",
+    "/describe.js": "/describe.js",
+    "/enroll.js": "/enroll.js",
     "/login.js": "/login.js",
-    "/products.js": "/products.js",
-    "/vendors~courses.js": "/vendors~courses.js",
-    "/enroll.js": "/enroll.js"
+    "/products.js": "/products.js"
 }

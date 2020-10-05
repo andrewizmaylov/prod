@@ -6,6 +6,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
+import moment from 'moment';
+import 'moment/locale/ru';
+moment.locale('ru');
+
+import Form from './utilites/form';
+window.Form = Form;
+
+window.moment = moment;
+window.Event = new Vue();
+
 import {routes} from './routes';
 
 const router = new VueRouter({

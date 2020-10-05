@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('verstka');
 });
 
+Route::post('/admin/create_course', 'CourseController@create');
+
 Route::get('/verstka', function () {
 	return view('verstka');
 });

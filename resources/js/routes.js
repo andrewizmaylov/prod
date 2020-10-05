@@ -3,5 +3,6 @@ export const routes = [
 	{path: '/products', name: 'products', component: () => import(/* webpackChunkName: "products"*/ "./components/products.vue"), meta: {requiresAuth: false} },
 	{path: '/enroll', name: 'enroll', component: () => import(/* webpackChunkName: "enroll"*/ "./components/enroll.vue"), meta: {requiresAuth: false} },
 	{path: '/login', name: 'login', component: () => import(/* webpackChunkName: "login"*/ "./components/login.vue"), meta: {requiresAuth: false} },
+	{path: '/describe', name: 'describe', component: () => import(/* webpackChunkName: "describe"*/ "./components/describe.vue"), meta: {requiresAuth: false} },
 	// {path: '/register', name: 'register', component: () => import(/* webpackChunkName: "register"*/ "./components/register.vue"), meta: {requiresAuth: false} },
 ]
