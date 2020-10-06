@@ -17,7 +17,10 @@ Route::get('/', function () {
     return view('verstka');
 });
 
-Route::post('/admin/create_course', 'CourseController@create');
+Route::post('/admin/create_course', 'App\Http\Controllers\CourseController@store');
+Route::post('/admin/create_statment', 'App\Http\Controllers\StatmentController@store');
+Route::post('/admin/create_chapter', 'App\Http\Controllers\ChapterController@store');
+Route::post('/admin/add_lesson', 'App\Http\Controllers\LessonController@store');
 
 Route::get('/verstka', function () {
 	return view('verstka');

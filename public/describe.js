@@ -32,18 +32,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'describe',
   data: function data() {
     return {
       course: new Form({}),
       statment: new Form({}),
-      statments: 1
+      chapter: new Form({}),
+      lesson: new Form({})
     };
   },
   methods: {
     addCourse: function addCourse() {
       axios.post('/admin/create_course', this.course).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    addStatment: function addStatment() {
+      axios.post('/admin/create_statment', this.statment).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    addChapter: function addChapter() {
+      axios.post('/admin/create_chapter', this.chapter).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    addLesson: function addLesson() {
+      axios.post('/admin/add_lesson', this.lesson).then(function (response) {
         console.log(response);
       })["catch"](function (error) {
         console.log(error);
@@ -170,90 +206,308 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c(
-      "span",
-      {
-        staticClass: "text-2xl",
-        on: {
-          click: function($event) {
-            _vm.statments++
-          }
-        }
-      },
-      [_vm._v("Statments")]
-    ),
+    _c("span", { staticClass: "text-2xl" }, [_vm._v("Statments")]),
     _vm._v(" "),
     _c(
       "form",
-      { staticClass: "w-4/5 mx-auto" },
-      _vm._l(_vm.statments, function(i) {
-        return _c("section", [
-          _c("input", {
+      {
+        staticClass: "w-4/5 mx-auto mb-16",
+        attrs: { method: "POST" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.addStatment($event)
+          }
+        }
+      },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.statment.definition,
+              expression: "statment.definition"
+            }
+          ],
+          staticClass:
+            "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: {
+            id: "title",
+            type: "text",
+            placeholder: "Statment definition"
+          },
+          domProps: { value: _vm.statment.definition },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.statment, "definition", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "textarea",
+          {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.statment.title,
-                expression: "statment.title"
+                value: _vm.statment.description,
+                expression: "statment.description"
               }
             ],
             staticClass:
               "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-            attrs: {
-              id: "title",
-              type: "text",
-              placeholder: "Statment definition"
-            },
-            domProps: { value: _vm.statment.title },
+            attrs: { name: "agenda", rows: "2", id: "agenda" },
+            domProps: { value: _vm.statment.description },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.statment, "title", $event.target.value)
+                _vm.$set(_vm.statment, "description", $event.target.value)
               }
             }
-          }),
-          _vm._v(" "),
-          _c(
-            "textarea",
+          },
+          [_vm._v("...")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
+            attrs: { type: "submit" }
+          },
+          [_vm._v("Add Statment")]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("span", { staticClass: "text-2xl" }, [_vm._v("Chapter")]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "w-4/5 mx-auto mb-16",
+        attrs: { method: "POST" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.addChapter($event)
+          }
+        }
+      },
+      [
+        _c("input", {
+          directives: [
             {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.statment.agenda,
-                  expression: "statment.agenda"
-                }
-              ],
-              staticClass:
-                "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-              attrs: { name: "agenda", rows: "2", id: "agenda" },
-              domProps: { value: _vm.statment.agenda },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.statment, "agenda", $event.target.value)
-                }
+              name: "model",
+              rawName: "v-model",
+              value: _vm.chapter.title,
+              expression: "chapter.title"
+            }
+          ],
+          staticClass:
+            "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { id: "title", type: "text", placeholder: "Chapter title" },
+          domProps: { value: _vm.chapter.title },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
               }
-            },
-            [_vm._v("...")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
+              _vm.$set(_vm.chapter, "title", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
             {
-              staticClass:
-                "shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
-              attrs: { type: "button" }
-            },
-            [_vm._v("Add Statment")]
-          )
-        ])
-      }),
-      0
+              name: "model",
+              rawName: "v-model",
+              value: _vm.chapter.description,
+              expression: "chapter.description"
+            }
+          ],
+          staticClass:
+            "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: {
+            id: "title",
+            type: "text",
+            placeholder: "Chapter description"
+          },
+          domProps: { value: _vm.chapter.description },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.chapter, "description", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
+            attrs: { type: "submit" }
+          },
+          [_vm._v("Add Statment")]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("span", { staticClass: "text-2xl" }, [_vm._v("Lessons")]),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        staticClass: "w-4/5 mx-auto mb-16",
+        attrs: { method: "POST" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.addLesson($event)
+          }
+        }
+      },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.lesson.number,
+              expression: "lesson.number"
+            }
+          ],
+          staticClass:
+            "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { id: "title", type: "text", placeholder: "Lesson number" },
+          domProps: { value: _vm.lesson.number },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.lesson, "number", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.lesson.title,
+              expression: "lesson.title"
+            }
+          ],
+          staticClass:
+            "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { id: "title", type: "text", placeholder: "Lesson title" },
+          domProps: { value: _vm.lesson.title },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.lesson, "title", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "textarea",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.lesson.description,
+                expression: "lesson.description"
+              }
+            ],
+            staticClass:
+              "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+            attrs: { name: "agenda", rows: "2", id: "description" },
+            domProps: { value: _vm.lesson.description },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.lesson, "description", $event.target.value)
+              }
+            }
+          },
+          [_vm._v("...")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.lesson.url,
+              expression: "lesson.url"
+            }
+          ],
+          staticClass:
+            "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { id: "title", type: "text", placeholder: "Lesson url" },
+          domProps: { value: _vm.lesson.url },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.lesson, "url", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.lesson.duration,
+              expression: "lesson.duration"
+            }
+          ],
+          staticClass:
+            "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+          attrs: { id: "title", type: "text", placeholder: "duration" },
+          domProps: { value: _vm.lesson.duration },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.lesson, "duration", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
+            attrs: { type: "submit" }
+          },
+          [_vm._v("Add Statment")]
+        )
+      ]
     )
   ])
 }
