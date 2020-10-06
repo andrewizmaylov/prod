@@ -5,5 +5,6 @@
     "/describe.js": "/describe.js",
     "/enroll.js": "/enroll.js",
     "/login.js": "/login.js",
-    "/products.js": "/products.js"
+    "/products.js": "/products.js",
+    "/courses~describe.js": "/courses~describe.js"
 }

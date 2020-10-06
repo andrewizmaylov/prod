@@ -50,6 +50,14 @@ class CourseController extends Controller
     }
 
     /**
+    * return all the Courses existed in database for this moment
+    */
+    public function get()
+    {
+        return Course::all();
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Course  $course

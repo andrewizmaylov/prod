@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::post('/admin/create_course', 'App\Http\Controllers\CourseController@store');
+Route::get('/admin/course_get', 'App\Http\Controllers\CourseController@get');
 Route::post('/admin/create_statment', 'App\Http\Controllers\StatmentController@store');
 Route::post('/admin/create_chapter', 'App\Http\Controllers\ChapterController@store');
 Route::post('/admin/add_lesson', 'App\Http\Controllers\LessonController@store');

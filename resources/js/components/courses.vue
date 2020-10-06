@@ -3,14 +3,14 @@
 
 		<course></course>
 		<section class="flex flex-wrap -m-4">
-			<pr_module v-for="i in selected" :key="i.index" :module="i" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" ></pr_module>
+			<pr_module v-for="i in selected" :key="i.index" :module="i" :action="'Learn more '" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" ></pr_module>
 		</section>
 
 
 		<div class="max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12">
 			
 			<section class="flex flex-wrap -m-4">
-				<pr_module v-for="i in courses" :key="i.index" :module="i" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="selectCourse(i)"></pr_module>
+				<pr_module v-for="i in courses" :key="i.index" :module="i" :action="'Learn more '" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="selectCourse(i)"></pr_module>
 			</section>
 		</div>
 	</section>

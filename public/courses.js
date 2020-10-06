@@ -385,12 +385,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_module',
-  props: ['module'],
+  props: ['module', 'action'],
   methods: {
     select: function select() {
-      this.$emit('select', this.module.slug);
+      this.$emit('select', 'this.module');
     }
   }
 });
@@ -469,7 +470,7 @@ var render = function() {
           return _c("pr_module", {
             key: i.index,
             staticClass: "p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto",
-            attrs: { module: i }
+            attrs: { module: i, action: "Learn more " }
           })
         }),
         1
@@ -486,7 +487,7 @@ var render = function() {
               return _c("pr_module", {
                 key: i.index,
                 staticClass: "p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto",
-                attrs: { module: i },
+                attrs: { module: i, action: "Learn more " },
                 on: {
                   select: function($event) {
                     return _vm.selectCourse(i)
@@ -999,11 +1000,13 @@ var render = function() {
           _c("div", { staticClass: "py-8 mb-8" }, [
             _c(
               "h1",
-              {
-                staticClass: "title-font text-lg font-medium text-gray-900 mb-3"
-              },
-              [_vm._v(_vm._s(_vm.module.name))]
+              { staticClass: "text-lg font-medium text-gray-900 mb-3" },
+              [_vm._v(_vm._s(_vm.module.title))]
             ),
+            _vm._v(" "),
+            _c("span", { staticClass: "font-medium text-gray-900 mb-3" }, [
+              _vm._v(_vm._s(_vm.module.subtitle))
+            ]),
             _vm._v(" "),
             _c("p", { staticClass: "leading-relaxed mb-3" }, [
               _vm._v(_vm._s(_vm.module.description))
@@ -1018,7 +1021,7 @@ var render = function() {
                   "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
               },
               [
-                _vm._v("Learn More\n\t\t            "),
+                _vm._v(_vm._s(_vm.action) + "\n\t\t            "),
                 _c(
                   "svg",
                   {
