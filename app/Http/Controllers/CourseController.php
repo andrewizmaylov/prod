@@ -63,9 +63,14 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show($id, Course $course)
     {
-        //
+        $course = Course::find($id);
+        $statments = $course->statments;
+        $chapters = $course->chapters;
+    return [$statments, $chapters];
+
+
     }
 
     /**
@@ -86,9 +91,11 @@ class CourseController extends Controller
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update($id, Request $request, Course $course)
     {
-        //
+        $row = Course::find($id);
+        $row->update($request->all());
+        $row->save();
     }
 
     /**

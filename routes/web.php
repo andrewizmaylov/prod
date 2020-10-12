@@ -17,7 +17,9 @@ Route::get('/', function () {
     return view('verstka');
 });
 
+Route::get('/course/{id}', 'App\Http\Controllers\CourseController@show');
 Route::post('/admin/create_course', 'App\Http\Controllers\CourseController@store');
+Route::post('/admin/update_course/{id}', 'App\Http\Controllers\CourseController@update');
 Route::get('/admin/course_get', 'App\Http\Controllers\CourseController@get');
 Route::post('/admin/create_statment', 'App\Http\Controllers\StatmentController@store');
 Route::post('/admin/create_chapter', 'App\Http\Controllers\ChapterController@store');

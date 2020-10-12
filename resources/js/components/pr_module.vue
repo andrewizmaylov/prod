@@ -30,7 +30,7 @@
 		props: ['module', 'action'],
 		methods: {
 			select() {
-				this.$emit('select', 'this.module');
+				this.$emit('select', this.module);
 			}
 		},
 

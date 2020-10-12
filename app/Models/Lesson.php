@@ -10,4 +10,9 @@ class Lesson extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function chapter()
+    {
+    	return $this->belongsTo(Chapter::class);
+    }
+
 }

@@ -2,9 +2,9 @@
     "/js/app.js": "/js/app.js",
     "/css/main.css": "/css/main.css",
     "/courses.js": "/courses.js",
+    "/courses~describe.js": "/courses~describe.js",
     "/describe.js": "/describe.js",
     "/enroll.js": "/enroll.js",
     "/login.js": "/login.js",
-    "/products.js": "/products.js",
-    "/courses~describe.js": "/courses~describe.js"
+    "/products.js": "/products.js"
 }

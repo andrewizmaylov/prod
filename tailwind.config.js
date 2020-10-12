@@ -1,4 +1,4 @@
-module.exports = {
+ module.exports = {
   future: {
     // removeDeprecatedGapUtilities: true,
     // purgeLayersByDefault: true,
@@ -6,6 +6,9 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
+      colors: {
+        'main-color': '#3FA4BA',
+      },
       spacing: {
         '1/1': '100%',
         '1/2': '50%',

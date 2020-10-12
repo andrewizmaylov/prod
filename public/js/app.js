@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"courses":"courses","describe":"describe","enroll":"enroll","login":"login","products":"products"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"courses~describe":"courses~describe","courses":"courses","describe":"describe","enroll":"enroll","login":"login","products":"products"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -75221,14 +75221,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var moment_locale_ru__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! moment/locale/ru */ "./node_modules/moment/locale/ru.js");
-/* harmony import */ var moment_locale_ru__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(moment_locale_ru__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _utilites_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utilites/form */ "./resources/js/utilites/form.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var _components_pr_header_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/pr_header.vue */ "./resources/js/components/pr_header.vue");
-/* harmony import */ var _components_pr_footer_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/pr_footer.vue */ "./resources/js/components/pr_footer.vue");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment_locale_ru__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment/locale/ru */ "./node_modules/moment/locale/ru.js");
+/* harmony import */ var moment_locale_ru__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment_locale_ru__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utilites_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utilites/form */ "./resources/js/utilites/form.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var _components_pr_header_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/pr_header.vue */ "./resources/js/components/pr_header.vue");
+/* harmony import */ var _components_pr_footer_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/pr_footer.vue */ "./resources/js/components/pr_footer.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -75236,14 +75236,14 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
-moment__WEBPACK_IMPORTED_MODULE_7___default.a.locale('ru');
+moment__WEBPACK_IMPORTED_MODULE_2___default.a.locale('ru');
 
-window.Form = _utilites_form__WEBPACK_IMPORTED_MODULE_3__["default"];
-window.moment = moment__WEBPACK_IMPORTED_MODULE_7___default.a;
+window.Form = _utilites_form__WEBPACK_IMPORTED_MODULE_4__["default"];
+window.moment = moment__WEBPACK_IMPORTED_MODULE_2___default.a;
 window.Event = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  routes: _routes__WEBPACK_IMPORTED_MODULE_4__["routes"],
+  routes: _routes__WEBPACK_IMPORTED_MODULE_5__["routes"],
   mode: ''
 }); // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
@@ -75260,8 +75260,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   router: router,
   components: {
-    pr_header: _components_pr_header_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    pr_footer: _components_pr_footer_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    pr_header: _components_pr_header_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    pr_footer: _components_pr_footer_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   }
 });
 
@@ -75482,7 +75482,7 @@ var routes = [{
   path: '/courses',
   name: 'courses',
   component: function component() {
-    return __webpack_require__.e(/*! import() | courses */ "courses").then(__webpack_require__.bind(null, /*! ./components/courses.vue */ "./resources/js/components/courses.vue"));
+    return Promise.all(/*! import() | courses */[__webpack_require__.e("courses~describe"), __webpack_require__.e("courses")]).then(__webpack_require__.bind(null, /*! ./components/courses.vue */ "./resources/js/components/courses.vue"));
   },
   meta: {
     requiresAuth: false
@@ -75518,7 +75518,7 @@ var routes = [{
   path: '/describe',
   name: 'describe',
   component: function component() {
-    return __webpack_require__.e(/*! import() | describe */ "describe").then(__webpack_require__.bind(null, /*! ./components/describe.vue */ "./resources/js/components/describe.vue"));
+    return Promise.all(/*! import() | describe */[__webpack_require__.e("courses~describe"), __webpack_require__.e("describe")]).then(__webpack_require__.bind(null, /*! ./components/describe.vue */ "./resources/js/components/describe.vue"));
   },
   meta: {
     requiresAuth: false
