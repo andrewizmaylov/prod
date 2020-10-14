@@ -65,6 +65,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -76,6 +79,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       course: new Form({}),
+      statments: [],
+      chapters: [],
+      lessons: [],
       statment: new Form({}),
       chapter: new Form({}),
       lesson: new Form({}),
@@ -102,11 +108,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     editCourse: function editCourse(input_data) {
+      var _this2 = this;
+
       if (input_data.id) {
         this.course = input_data;
         this.edit_mode = true;
         axios.get('/course/' + input_data.id).then(function (response) {
-          console.log(response.data[0]);
+          _this2.statments = response.data[0];
+          _this2.chapters = response.data[1];
         })["catch"](function (error) {
           console.log(error);
         });
@@ -115,13 +124,16 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     newCourse: function newCourse() {
-      this.course = {};
+      this.clearCourse();
       this.edit_mode = true;
       this.editable = true;
       this.path = '/admin/create_course';
     },
-    clearForm: function clearForm() {
+    clearCourse: function clearCourse() {
       this.course = {};
+      this.statments = [];
+      this.chapters = [];
+      this.lessons = [];
       this.edit_mode = false;
       this.editable = false;
       this.path = '';
@@ -141,40 +153,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     addRecord: function addRecord(data) {
-      var _this2 = this;
-
       axios.post(this.path, data).then(function (response) {
-        console.log(response);
-
-        _this2.clearForm();
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    addCourse: function addCourse() {
-      axios.post('/admin/create_course', this.course).then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    addStatment: function addStatment() {
-      axios.post('/admin/create_statment', this.statment).then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    addChapter: function addChapter() {
-      axios.post('/admin/create_chapter', this.chapter).then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    addLesson: function addLesson() {
-      axios.post('/admin/add_lesson', this.lesson).then(function (response) {
-        console.log(response);
+        console.log(response); // this.clearForm();
       })["catch"](function (error) {
         console.log(error);
       });
@@ -300,7 +280,7 @@ var render = function() {
                 ],
                 staticClass:
                   "w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white",
-                on: { click: _vm.clearForm }
+                on: { click: _vm.clearCourse }
               },
               [_vm._v("Cancel")]
             ),
@@ -457,11 +437,10 @@ var render = function() {
             "form",
             {
               staticClass: "w-4/5 mx-auto mb-16",
-              attrs: { method: "POST" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.addRecord("statment")
+                  return _vm.addRecord(_vm.statment)
                 }
               }
             },
@@ -538,21 +517,24 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("span", { staticClass: "text-2xl" }, [_vm._v("Chapter")]),
-          _vm._v(" "),
           _c(
             "form",
             {
               staticClass: "w-4/5 mx-auto mb-16",
-              attrs: { method: "POST" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.addChapter($event)
+                  return _vm.addRecord(_vm.chapter)
                 }
               }
             },
             [
+              _c(
+                "label",
+                { staticClass: "block text-2xl text-gray-800 mb-2 ml-2" },
+                [_vm._v("Chapter")]
+              ),
+              _vm._v(" "),
               _c("input", {
                 directives: [
                   {
@@ -619,21 +601,24 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("span", { staticClass: "text-2xl" }, [_vm._v("Lessons")]),
-          _vm._v(" "),
           _c(
             "form",
             {
               staticClass: "w-4/5 mx-auto mb-16",
-              attrs: { method: "POST" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.addLesson($event)
+                  return _vm.addRecord(_vm.lesson)
                 }
               }
             },
             [
+              _c(
+                "label",
+                { staticClass: "block text-2xl text-gray-800 mb-2 ml-2" },
+                [_vm._v("Lessons")]
+              ),
+              _vm._v(" "),
               _c("input", {
                 directives: [
                   {

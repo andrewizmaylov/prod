@@ -18,12 +18,20 @@ Route::get('/', function () {
 });
 
 Route::get('/course/{id}', 'App\Http\Controllers\CourseController@show');
+
+Route::get('/admin/course_get', 'App\Http\Controllers\CourseController@get');
+
 Route::post('/admin/create_course', 'App\Http\Controllers\CourseController@store');
 Route::post('/admin/update_course/{id}', 'App\Http\Controllers\CourseController@update');
-Route::get('/admin/course_get', 'App\Http\Controllers\CourseController@get');
+
 Route::post('/admin/create_statment', 'App\Http\Controllers\StatmentController@store');
+Route::post('/admin/update_statment/{id}', 'App\Http\Controllers\StatmentController@update');
+
 Route::post('/admin/create_chapter', 'App\Http\Controllers\ChapterController@store');
+Route::post('/admin/update_chapter/{id}', 'App\Http\Controllers\ChapterController@update');
+
 Route::post('/admin/add_lesson', 'App\Http\Controllers\LessonController@store');
+Route::post('/admin/update_lesson/{id}', 'App\Http\Controllers\LessonController@update');
 
 Route::get('/verstka', function () {
 	return view('verstka');

@@ -81,9 +81,11 @@ class LessonController extends Controller
      * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update($id, Request $request, Lesson $lesson)
     {
-        //
+        $row = Lesson::find($id);
+        $row->update($request->all());
+        $row->save();
     }
 
     /**

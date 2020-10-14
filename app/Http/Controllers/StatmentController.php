@@ -78,9 +78,11 @@ class StatmentController extends Controller
      * @param  \App\Models\Statment  $statment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Statment $statment)
+    public function update($id, Request $request, Statment $statment)
     {
-        //
+        $row = Statment::find($id);
+        $row->update($request->all());
+        $row->save();
     }
 
     /**

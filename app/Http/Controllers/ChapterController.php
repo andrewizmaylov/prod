@@ -78,9 +78,11 @@ class ChapterController extends Controller
      * @param  \App\Models\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Chapter $chapter)
+    public function update($id, Request $request, Chapter $chapter)
     {
-        //
+        $row = Chapter::find($id);
+        $row->update($request->all());
+        $row->save();
     }
 
     /**

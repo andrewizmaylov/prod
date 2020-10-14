@@ -9,7 +9,7 @@
 		<section v-show="edit_mode">
 			<div class="flex -mx-2">
 				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="initialize(course, 'course')" v-show="!editable">Edit entry</span>
-				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="clearForm" v-show="editable">Cancel</span>
+				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="clearCourse" v-show="editable">Cancel</span>
 				
 				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="newCourse">New entry</span>
 			</div>
@@ -21,26 +21,29 @@
 					<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="New Course title" v-model="course.title">
 					<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="subtitle" type="text" placeholder="Subtitle" v-model="course.subtitle">
 					<textarea name="description" rows="9" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="course.description">Say something about the New Course...</textarea>
+
 					<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">{{btn}} Course</button>	
 				</form>
 			</section>
 
-			<form class="w-4/5 mx-auto mb-16" method="POST" @submit.prevent="addRecord('statment')">
-					<label class="block text-2xl text-gray-800 mb-2 ml-2">Statments</label>
+			<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(statment)">
+				<label class="block text-2xl text-gray-800 mb-2 ml-2">Statments</label>
 				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Statment definition" v-model="statment.definition">
 				<textarea name="agenda" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="agenda" v-model="statment.description">...</textarea>
+
 				<button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">{{btn}} Statment</button>
 			</form>
 
-			<span class="text-2xl">Chapter</span>
-			<form class="w-4/5 mx-auto mb-16" method="POST" @submit.prevent="addChapter">
+			<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(chapter)">
+				<label class="block text-2xl text-gray-800 mb-2 ml-2">Chapter</label>
 				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter title" v-model="chapter.title">
 				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter description" v-model="chapter.description">
+
 				<button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">Add Statment</button>
 			</form>
 
-			<span class="text-2xl">Lessons</span>
-			<form class="w-4/5 mx-auto mb-16" method="POST" @submit.prevent="addLesson">
+			<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(lesson)">
+				<label class="block text-2xl text-gray-800 mb-2 ml-2">Lessons</label>
 				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson number" v-model="lesson.number">
 				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson title" v-model="lesson.title">
 				<textarea name="agenda" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="lesson.description">...</textarea>
@@ -62,6 +65,11 @@
 		data() {
 			return {
 				course: new Form ({}),
+
+				statments: [],
+				chapters: [],
+				lessons: [],
+
 				statment: new Form({}),
 				chapter: new Form({}),
 				lesson: new Form({}),
@@ -93,7 +101,8 @@
 			    	this.edit_mode = true;
 			    	axios.get('/course/'+input_data.id)
 			    	    .then(response => {
-			    	        console.log(response.data[0]);
+			    	    	this.statments = response.data[0];
+			    	    	this.chapters = response.data[1];
 			    	    })
 			    	    .catch(error => {
 			    	        console.log(error);
@@ -104,13 +113,16 @@
 				
 			},
 			newCourse() {
-				this.course = {};
+				this.clearCourse();
 				this.edit_mode = true;
 				this.editable = true;
 				this.path = '/admin/create_course';
 			},
-			clearForm() {
+			clearCourse() {
 				this.course = {};
+				this.statments = [];
+				this.chapters = [];
+				this.lessons = [];
 				this.edit_mode = false;
 				this.editable = false;
 				this.path = '';
@@ -132,53 +144,13 @@
 				axios.post(this.path, data)
 				    .then(response => {
 				        console.log(response);
-				        this.clearForm();
+				        // this.clearForm();
 				    })
 				    .catch(error => {
 				        console.log(error);
 				    });
 			},
 
-			addCourse() {
-				axios.post('/admin/create_course', this.course)
-				    .then(response => {
-				        console.log(response);
-				    })
-				    .catch(error => {
-				        console.log(error);
-				    });
-				 
-			},
-			addStatment() {
-				axios.post('/admin/create_statment', this.statment)
-				    .then(response => {
-				        console.log(response);
-				    })
-				    .catch(error => {
-				        console.log(error);
-				    });
-				 
-			},
-			addChapter() {
-				axios.post('/admin/create_chapter', this.chapter)
-				    .then(response => {
-				        console.log(response);
-				    })
-				    .catch(error => {
-				        console.log(error);
-				    });
-				 
-			},
-			addLesson() {
-				axios.post('/admin/add_lesson', this.lesson)
-				    .then(response => {
-				        console.log(response);
-				    })
-				    .catch(error => {
-				        console.log(error);
-				    });
-				 
-			},
 		}
 	}
 </script>
