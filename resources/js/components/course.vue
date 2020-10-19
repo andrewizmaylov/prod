@@ -1,6 +1,6 @@
 <template>
 	<section class="text-gray-700 ">
-		<pr_course_intro :course="course.intro"></pr_course_intro>
+		<pr_course_intro :course="course" :lessonsCount="lessonsCount" :duration="duration" :students='students'></pr_course_intro>
 
 		<pr_course_statments class="px-8 sm:px-1" :statments="course.statments"></pr_course_statments>
 
@@ -20,137 +20,55 @@
 		name: 'course',
 		extends: basic_logic,
 		components: {pr_course_statments, pr_course_intro, pr_course_content,},
+		created() {
+			this.course = this.loadCourse(this.courses[1]);
+		},
 		data() {
 			return {
-				course: {
-					intro: {
-						title: 'Full Product Course',
-						subtitle: 'How to become a Product Manager',
-						description: "You'll learn how to build digital products from end to end, lead cross-functional teams and land your next product job or promotion. Get certified and propel your product management career forward with our full online course. This course is created by product managers from Booking, Google, PayPal, and more. <p>We will help you to get a Job as a Product Manager.</p>",
-						url: 'https://www.dl.dropboxusercontent.com/s/5f828j7cioyms42/ps1.mp4?dl=0',
-						lessons: [
-							{'duration': '2 min', 'topic': 'Introduction', 'url': 'https://www.youtube.com/watch?v=_ZW5B6nZ8Xw',},
-							{'duration': '12 min', 'topic': 'User Profile', 'url': 'https://www.youtube.com/watch?v=_ZW5B6nZ8Xw',},
-	 					],
-	 					students: 241,
-	 					totaltime: 186,
+				coursesee: [
+					{
+						loaded: false,
+						slug: '1',
+						img: '/img/module1.svg',
+						name: 'Basic Product Manager Skills',
+						description: 'Our course help you to start your successful career as a PM.',
 					},
-
-					statments: [
-						{
-							img: 'Frame1.svg',
-							definition: 'Live Online',
-							description: [
-								'Learn, interact and participate from home!',
-							]
-						},
-						{
-							img: 'Frame2.svg',
-							definition: 'Flexible schedule',
-							description: [
-								'Choose the timing and pace that fits.',
-							]
-						},
-						{
-							img: 'Frame3.svg',
-							definition: 'Top Instructors',
-							description: [
-								'Get trained by Product Experts from world leading companies.',
-							]
-						},
-						{
-							img: 'Frame4.svg',
-							definition: 'Get Certified',
-							description: [
-								'Get certified and propel your product management career forward.',
-							]
-						},
-					],
-
-					content: [
-						{
-							title: 'Basic Product Manager Skills',
-							lessons: [
-								'Who is a Product Manager? Product Manager skills and traits',
-								'Immersion into an existing product',
-								'Product Team processes and working with the Engineering Team',
-								'Mockups and User-research',
-								'Prioritization',
-								'Strategy and global view of the product',
-								'Applied analytics',
-								'A/B testing',
-								'Growth Hacking',
-								'Mock interview',
-								'Unit Economics',
-							],
-							comment: '',
-							status: 'false'
-						},
-						{
-							title: 'Skills for Mid-level Product Manager',
-							lessons: [
-								'Product Manager Soft Skills',
-								'Product Manager Documents',
-								'Differences in working with B2B- and B2C-products',
-								'How to quickly form hypotheses and determine the MVP',
-								'Offline Business Digitalization',
-								'Making the case for your project',
-								'Subcontractors',
-								'Growth hacking',
-								'Reboots / Overhauls',
-								'Job Interview',
-								'Conclusion / Final',
-							],
-							comment: '',
-							status: 'false'
-						},
-						{
-							title: 'Mobile Products',
-							lessons: [
-								'Designing a mobile application',
-								'How to onboard new users',
-								'Setting up mobile analytics and conducting A/B testing',
-								'Prototyping a mobile application',
-								'Under the hood of mobile applications',
-								'How to promote a mobile app to an existing audience',
-								'Appstore and Google Play Store Secrets. What you need to know about these platforms',
-								'Mobile App Promotion / Marketing + Conclusion / Final',
-							],
-							comment: '',
-							status: 'false'
-						},
-						{
-							title: 'Product Manager Level-up',
-							lessons: [
-								'Product Managers\' Common Mistakes',
-								'Product Vision',
-								'OKR and Planning',
-								'Working with a Remote Team',
-								'International Products',
-								'Monetization',
-								'Working with budgets',
-								'Hiring a team',
-								'Competitor Analysis',
-								'Market Size and Share Evaluation',
-								'AI Product Management',
-							],
-							comment: '',
-							status: 'false'
-						},
-						{
-							title: 'Thesis (Graduation project) and Employment Assistance',
-							lessons: [
-								'Resume preparation',
-								'Preparing for a job interview',
-								'Final review and advice',
-							],
-							comment: '',
-							status: 'false'
-						},				
-
-					],
-
-				},
+					{
+						loaded: false,
+						slug: '2',
+						img: '/img/module2.svg',
+						name: 'Skills for Mid-level Product Manager',
+						description: 'This course teach you the essential skills you need to ace your PM interview...',
+					},
+					{
+						loaded: false,
+						slug: '3',
+						img: '/img/module3.svg',
+						name: 'Mobile Product Managment',
+						description: 'Upgrade your Mobile PM skills today and stay ahead of the curve!',
+					},
+					{
+						loaded: false,
+						slug: '4',
+						img: '/img/module4.svg',
+						name: 'Product Manager Level-up',
+						description: 'This cours eis the best way to bring your PM skills to new heights!',
+					},
+					{
+						loaded: false,
+						slug: '5',
+						img: '/img/module5.svg',
+						name: 'Super power Skill, which not exists: ZeroCoding',
+						description: 'This course can help you to get your idea implemented immediately without developers and code!',
+					},
+					{
+						loaded: false,
+						slug: '6',
+						img: '/img/module6.svg',
+						name: 'A/B Testing skills',
+						description: 'This course will help you to bring your PM career to new heights.',
+					},
+				],
 			}
 		}
 	}

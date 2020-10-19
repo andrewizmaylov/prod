@@ -3,7 +3,7 @@
 		<h1 class="text-2xl text-gray-800 pt-12 mb-4 px-8">Where our students find employment</h1>
 		<p class="text-sm px-6 mb-4">We help our students get invited to interviews and land jobs</p>
 		<div class="flex flex-wrap justify-around w-2/3 mx-auto">
-			<span class="lg:w-1/5 md:w-1/3 p-2 m-2" v-for="item in sponsors" >
+			<span class="lg:w-1/5 md:w-1/3 sm:w-1/5 p-2 m-2" v-for="item in sponsors" >
 				<img :src="item.logo" class="w-full h-full" style=" filter: grayscale(70%);">
 			</span>
 		</div>

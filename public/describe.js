@@ -127,14 +127,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      courses: [],
-      statments: [],
-      chapters: [],
-      lessons: [],
-      course: new Form({}),
-      statment: new Form({}),
-      chapter: new Form({}),
-      lesson: new Form({}),
+      // courses: [],
+      // statments: [],
+      // chapters: [],
+      // lessons: [],
+      // course: new Form ({}),
+      // statment: new Form({}),
+      // chapter: new Form({}),
+      // lesson: new Form({}),
       model_name: '',
       //model name for define the axios route (course, statment etc)
       method: '',
@@ -146,16 +146,29 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    addEntry: function addEntry(entry) {
-      this.model_name = entry;
-      this[entry] = {};
-      this.filter(this[entry], this.model_name);
-    },
     newCourse: function newCourse() {
       this.clearCourse();
       this.edit_mode = true;
       this.editable = true;
       this.path = '/admin/create_course';
+    },
+    clearCourse: function clearCourse() {
+      this.course = {};
+      this.clearForm();
+    },
+    clearForm: function clearForm() {
+      this.statments = [];
+      this.chapters = [];
+      this.lessons = [];
+      this.edit_mode = false;
+      this.editable = false;
+      this.path = '';
+      this.model = '';
+      this.btn = '';
+    },
+    clearModel: function clearModel(model) {
+      this[model] = {};
+      this.setPath(model);
     },
     newLesson: function newLesson(data) {
       this.chapter = data[0];
@@ -179,30 +192,19 @@ __webpack_require__.r(__webpack_exports__);
       this.editable = true;
       this.path = '/admin/update_chapter';
     },
-    clearCourse: function clearCourse() {
-      this.course = {};
-      this.clearForm();
-    },
-    clearForm: function clearForm() {
-      this.statments = [];
-      this.chapters = [];
-      this.lessons = [];
-      this.edit_mode = false;
-      this.editable = false;
-      this.path = '';
-      this.model = '';
-      this.btn = '';
-    },
-    clearModel: function clearModel(model) {
-      this[model] = {};
-      this.setPath(model);
-    },
+    // activate correspondent filled form to edit already existing row
     initialize: function initialize(model, model_name) {
       this.editable = true;
       this.filter(model, model_name); // this.edit_mode = true;
 
       this[model_name] = model;
       this.setPath(model_name);
+    },
+    // activate corresponding form to add completely new entry to database
+    addEntry: function addEntry(entry) {
+      this.model_name = entry;
+      this[entry] = {};
+      this.filter(this[entry], this.model_name);
     },
     // filter array make only editable show
     filter: function filter(model, model_name) {
@@ -376,7 +378,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Edit entry")]
+              [_vm._v("Edit Course")]
             ),
             _vm._v(" "),
             _c(
@@ -404,13 +406,13 @@ var render = function() {
                   "w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white",
                 on: { click: _vm.newCourse }
               },
-              [_vm._v("New entry")]
+              [_vm._v("New Course")]
             )
           ]),
           _vm._v(" "),
           _c(
             "section",
-            { staticClass: "px-8 py-8 my-6 bg-gray-100" },
+            { staticClass: "mt-6" },
             [
               _c("pr_course_intro", {
                 directives: [
@@ -592,7 +594,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("section", { staticClass: "px-8 py-8 my-6 bg-gray-100" }, [
+          _c("section", { staticClass: "p-8 my-6 bg-gray-100" }, [
             _c("div", { staticClass: "flex mb-4" }, [
               _c(
                 "span",

@@ -10,13 +10,13 @@
 		<section v-show="edit_mode">
 			<!-- top set of buttons -->
 			<div class="flex -mx-2">
-				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="initialize(course, 'course')" v-show="!editable">Edit entry</span>
+				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="initialize(course, 'course')" v-show="!editable">Edit Course</span>
 				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="clearCourse" v-show="editable">All Courses</span>
 				
-				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="newCourse">New entry</span>
+				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="newCourse">New Course</span>
 			</div>
 			<!-- describe course section -->
-			<section class="px-8 py-8 my-6 bg-gray-100">
+			<section class="mt-6">
 				<pr_course_intro :course="course" :lessonsCount="lessonsCount" :duration="duration" :students='students' v-show="!editable"></pr_course_intro>
 				<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(course)" v-show="editable" @input="setPath($event.target.name)">
 					<label class="block text-2xl text-gray-800 mb-2 ml-2">Course description</label>
@@ -31,7 +31,7 @@
 			</section>
 
 			<!-- describe statment section -->
-			<section class="px-8 py-8 my-6 bg-gray-100">
+			<section class="p-8 my-6 bg-gray-100">
 				<div class="flex mb-4">
 					<span class="block text-2xl text-gray-800 mb-2 " :class="model_name == 'statment' ? 'mx-auto' : 'ml-2'">Statments section</span>
 					<span class="text-main-color px-4 ml-auto" @click="addEntry('statment')" v-if="model_name !== 'statment'">New Statment</span>
@@ -110,15 +110,15 @@
 		data() {
 			return {
 
-				courses: [],
-				statments: [],
-				chapters: [],
-				lessons: [],
+				// courses: [],
+				// statments: [],
+				// chapters: [],
+				// lessons: [],
 
-				course: new Form ({}),
-				statment: new Form({}),
-				chapter: new Form({}),
-				lesson: new Form({}),
+				// course: new Form ({}),
+				// statment: new Form({}),
+				// chapter: new Form({}),
+				// lesson: new Form({}),
 
 				model_name: '', //model name for define the axios route (course, statment etc)
 				method: '',
@@ -130,38 +130,11 @@
 			}
 		},
 		methods: {
-			addEntry(entry) {
-				this.model_name=entry;
-				this[entry] = {};
-				this.filter(this[entry], this.model_name);
-			},
 			newCourse() {
 				this.clearCourse();
 				this.edit_mode = true;
 				this.editable = true;
 				this.path = '/admin/create_course';
-			},
-			newLesson(data) {
-				this.chapter = data[0];
-				this.lesson = {};
-				this.model_name = 'lesson';
-				this.edit_mode = true;
-				this.editable = true;
-				this.path = '/admin/create_lesson';
-			},
-			editLesson(data) {
-				this.lesson = data;
-				this.model_name = 'lesson';
-				this.edit_mode = true;
-				this.editable = true;
-				this.path = '/admin/update_lesson';
-			},
-			editChapter(data) {
-				this.chapter = data;
-				this.model_name = 'chapter';
-				this.edit_mode = true;
-				this.editable = true;
-				this.path = '/admin/update_chapter';
 			},
 			clearCourse() {
 				this.course = {};
@@ -181,12 +154,44 @@
 				this[model] = {};
 				this.setPath(model);
 			},
+
+			newLesson(data) {
+				this.chapter = data[0];
+				this.lesson = {};
+				this.model_name = 'lesson';
+				this.edit_mode = true;
+				this.editable = true;
+				this.path = '/admin/create_lesson';
+			},
+			editLesson(data) {
+				this.lesson = data;
+				this.model_name = 'lesson';
+				this.edit_mode = true;
+				this.editable = true;
+				this.path = '/admin/update_lesson';
+			},
+
+			editChapter(data) {
+				this.chapter = data;
+				this.model_name = 'chapter';
+				this.edit_mode = true;
+				this.editable = true;
+				this.path = '/admin/update_chapter';
+			},
+
+			// activate correspondent filled form to edit already existing row
 			initialize(model, model_name) {
 				this.editable = true;
 				this.filter(model, model_name);
 				// this.edit_mode = true;
 				this[model_name] = model;
 				this.setPath(model_name);		
+			},
+			// activate corresponding form to add completely new entry to database
+			addEntry(entry) {
+				this.model_name=entry;
+				this[entry] = {};
+				this.filter(this[entry], this.model_name);
 			},
 			// filter array make only editable show
 			filter(model, model_name) {
@@ -201,9 +206,11 @@
 				this.btn = 'Create New '
 				this.updateModels();
 			},
+
 			chapterSelected(data) {
 				this.chapter = data;
 			},
+
 			setPath(model_name) {
 				this.model_name = model_name;
 				if(this[model_name].id) {

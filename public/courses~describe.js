@@ -22,7 +22,9 @@ __webpack_require__.r(__webpack_exports__);
       course: new Form({}),
       statment: new Form({}),
       chapter: new Form({}),
-      lesson: new Form({})
+      lesson: new Form({}),
+      selected: [] // for users side determ which module is currently selected
+
     };
   },
   created: function created() {
@@ -30,30 +32,54 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get('/admin/course_get').then(function (response) {
       _this.courses = response.data;
+
+      _this.courses.filter(function (course) {
+        return course.loaded = false;
+      });
+
+      _this.init();
     })["catch"](function (error) {
       console.log(error);
     });
   },
+  mounted: function mounted() {},
   methods: {
+    init: function init(id) {
+      var _this2 = this;
+
+      if (id) {
+        this.courses.filter(function (course) {
+          if (course.id == id) {
+            _this2.course = course;
+          }
+        });
+      } else {
+        this.course = this.courses[0];
+      }
+
+      this.course.loaded = true;
+      this.selected = this.courses.filter(function (course) {
+        return course.loaded == false;
+      });
+      this.updateModels();
+    },
     loadCourse: function loadCourse(input_data) {
       if (input_data.id) {
-        // this.initialize(input_data, 'course');
         this.course = input_data;
         this.edit_mode = true;
-        this.updateModels(); // this.course.lessonsCount = this.lessonsCount;
-        // this.course.duration = this.durations;
+        this.updateModels();
       } else {
         this.newCourse();
       }
     },
     updateModels: function updateModels() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/course/' + this.course.id).then(function (response) {
-        _this2.statments = response.data[0];
-        _this2.chapters = response.data[1];
-        _this2.lessonsCount = response.data[2];
-        _this2.duration = response.data[3]; // this.students = this.students;
+        _this3.statments = response.data[0];
+        _this3.chapters = response.data[1];
+        _this3.lessonsCount = response.data[2];
+        _this3.duration = response.data[3]; // this.students = this.students;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -325,7 +351,7 @@ var render = function() {
   return _c("div", { staticClass: "bg-gray-100 w-full" }, [
     _c(
       "section",
-      { staticClass: "container px-5 py-12 mx-auto lg:w-4/5 lg:flex block" },
+      { staticClass: "container px-5 py-12 mx-auto lg:w-5/6 lg:flex block" },
       [
         _c(
           "div",
@@ -689,7 +715,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "px-8 py-8 my-6 bg-gray-100" }, [
+  return _c("div", { staticClass: "p-8 bg-gray-100" }, [
     _c(
       "div",
       { staticClass: "container mx-auto lg:w-4/5 mx-auto flex flex-wrap" },
@@ -820,14 +846,14 @@ var render = function() {
               "lg:w-2/5 w-full mx-auto h-auto lg:py-12 md:py-2 py-1 mb-6 lg:mb-0"
           },
           [
-            _c("div", { staticClass: "relative pb-9/16 " }),
+            _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "flex mt-8 justify-center" }, [
               _c(
                 "button",
                 {
                   staticClass:
-                    "text-white bg-color-main border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded",
+                    "text-white bg-main-color border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded",
                   on: {
                     click: function($event) {
                       return _vm.$router.push({ name: "enroll" })
@@ -843,7 +869,25 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "relative pb-9/16 " }, [
+      _c("iframe", {
+        staticClass: "absolute w-full h-full md:px-8 sm:px-1 lg:p-0",
+        attrs: {
+          src: "https://player.vimeo.com/video/463168822",
+          frameborder: "0",
+          allow:
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+          allowfullscreen: ""
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 

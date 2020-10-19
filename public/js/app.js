@@ -59881,13 +59881,17 @@ var render = function() {
       "div",
       { staticClass: "flex flex-wrap justify-around w-2/3 mx-auto" },
       _vm._l(_vm.sponsors, function(item) {
-        return _c("span", { staticClass: "lg:w-1/5 md:w-1/3 p-2 m-2" }, [
-          _c("img", {
-            staticClass: "w-full h-full",
-            staticStyle: { filter: "grayscale(70%)" },
-            attrs: { src: item.logo }
-          })
-        ])
+        return _c(
+          "span",
+          { staticClass: "lg:w-1/5 md:w-1/3 sm:w-1/5 p-2 m-2" },
+          [
+            _c("img", {
+              staticClass: "w-full h-full",
+              staticStyle: { filter: "grayscale(70%)" },
+              attrs: { src: item.logo }
+            })
+          ]
+        )
       }),
       0
     ),

@@ -1,5 +1,5 @@
 <template>
-	<div class="px-8 py-8 my-6 bg-gray-100">
+	<div class="p-8 bg-gray-100">
 		<div class="container mx-auto lg:w-4/5 mx-auto flex flex-wrap">
 			<section class="lg:w-3/5 w-full lg:pr-4 lg:py-6 md:px-8 sm:px-1 mb-6 lg:mb-0">
 		        <h6 class="text-sm title-font text-gray-500 tracking-normal">
@@ -30,11 +30,11 @@
 	        </section>
 	        <section class="lg:w-2/5 w-full mx-auto h-auto lg:py-12 md:py-2 py-1 mb-6 lg:mb-0">
 	        	<div class="relative pb-9/16 ">
-	        		<!-- <iframe class="absolute w-full h-full md:px-8 sm:px-1 lg:p-0" src="https://player.vimeo.com/video/463168822" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+	        		<iframe class="absolute w-full h-full md:px-8 sm:px-1 lg:p-0" src="https://player.vimeo.com/video/463168822" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	        	</div>
 			    
 		        <div class="flex mt-8 justify-center">
-					<button class="text-white bg-color-main border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" @click="$router.push({name: 'enroll'})">Enroll Now</button>
+					<button class="text-white bg-main-color border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" @click="$router.push({name: 'enroll'})">Enroll Now</button>
 		        </div>
 			</section>
 	    </div>
