@@ -7,7 +7,7 @@
         		<div class="py-8 mb-8">
         			<h1 class="text-lg font-medium text-gray-900 mb-3">{{module.title}}</h1>
         			<span class="font-medium text-gray-900 mb-3">{{module.subtitle}}</span>
-        			<p class="leading-relaxed mb-3">{{module.description}}</p>
+        			<p class="leading-relaxed mb-3" v-html="module.description"></p>
         		</div>
 	            <div class="absolute bottom-0 mt-4 mb-6">
 		          <span class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color">{{action}}

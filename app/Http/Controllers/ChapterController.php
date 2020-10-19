@@ -40,9 +40,8 @@ class ChapterController extends Controller
             'title' => 'required',
             'description' => 'required',
         ]);
-
         if($data) {
-            $data['course_id'] = Course::first()->id;
+            $data['course_id'] = $request['course_id'];
             Chapter::create($data);
 
             return response(['message' => "New Chapter created for course {$data['course_id']}"], 201);

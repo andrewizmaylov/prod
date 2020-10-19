@@ -30,8 +30,10 @@ Route::post('/admin/update_statment/{id}', 'App\Http\Controllers\StatmentControl
 Route::post('/admin/create_chapter', 'App\Http\Controllers\ChapterController@store');
 Route::post('/admin/update_chapter/{id}', 'App\Http\Controllers\ChapterController@update');
 
-Route::post('/admin/add_lesson', 'App\Http\Controllers\LessonController@store');
+Route::post('/admin/create_lesson', 'App\Http\Controllers\LessonController@store');
 Route::post('/admin/update_lesson/{id}', 'App\Http\Controllers\LessonController@update');
+
+Route::get('/lessons/{id}', 'App\Http\Controllers\LessonController@byChapter');
 
 Route::get('/verstka', function () {
 	return view('verstka');

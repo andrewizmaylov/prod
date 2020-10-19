@@ -42,9 +42,9 @@ class CourseController extends Controller
         ]);
 
         if($data) {
-            Course::create($data);
+            $course = Course::create($data);
             
-            return response(['message' => 'New Course was created'], 201);
+            return response(['message' => 'New Course was created', 'last_insert_id' => $course->id], 201);
         }
 
     }
@@ -68,8 +68,28 @@ class CourseController extends Controller
         $course = Course::find($id);
         $statments = $course->statments;
         $chapters = $course->chapters;
-    return [$statments, $chapters];
+        $lessonsCount = 0;
+        $duration = 0;
+        foreach ($chapters as $chapter) {
+            $lessons = $chapter->lessons;
+            $lessonsCount += $lessons->count();
+            $durations = $lessons->pluck('duration');
 
+            $sum = strtotime('00:00:00');
+            $sum2=0;  
+            foreach ($durations as $v){
+                $sum1 = strtotime($v)-$sum;
+                $sum2 = $sum2+$sum1;
+            }
+
+            $timeForChapter = $sum + $sum2;
+
+            $fulltime = date("H:i:s", $timeForChapter);
+            $time = explode(':', $fulltime);
+            $duration += ($time[0]*60) + ($time[1]) + ($time[2]/60);
+        }
+            
+        return [$statments, $chapters, $lessonsCount, $duration];
 
     }
 
@@ -96,6 +116,7 @@ class CourseController extends Controller
         $row = Course::find($id);
         $row->update($request->all());
         $row->save();
+        return response(['message' => 'Course was updated', 'last_insert_id' => $row->id], 201);
     }
 
     /**

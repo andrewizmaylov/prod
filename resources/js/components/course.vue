@@ -2,20 +2,24 @@
 	<section class="text-gray-700 ">
 		<pr_course_intro :course="course.intro"></pr_course_intro>
 
-		<pr_course_statment class="px-8 sm:px-1" :statments="course.statments"></pr_course_statment>
+		<pr_course_statments class="px-8 sm:px-1" :statments="course.statments"></pr_course_statments>
 
-		<pr_course_content :content="course.content"></pr_course_content>
+		<pr_course_content :content="this.chapters"></pr_course_content>
 
 		<h2 class="text-2xl text-gray-800 mt-4 mb-8 text-center">Related courses:</h2>
 	</section>
 </template>
 <script>
-	import pr_course_statment from './pr_course_statment.vue';
+	import pr_course_statments from './pr_course_statments.vue';
 	import pr_course_intro from './pr_course_intro.vue';
 	import pr_course_content from './pr_course_content.vue';
+
+	import basic_logic from './basic_logic.vue';
+
 	export default {
 		name: 'course',
-		components: {pr_course_statment, pr_course_intro, pr_course_content,},
+		extends: basic_logic,
+		components: {pr_course_statments, pr_course_intro, pr_course_content,},
 		data() {
 			return {
 				course: {
@@ -35,29 +39,29 @@
 					statments: [
 						{
 							img: 'Frame1.svg',
-							title: 'Live Online',
-							agenda: [
+							definition: 'Live Online',
+							description: [
 								'Learn, interact and participate from home!',
 							]
 						},
 						{
 							img: 'Frame2.svg',
-							title: 'Flexible schedule',
-							agenda: [
+							definition: 'Flexible schedule',
+							description: [
 								'Choose the timing and pace that fits.',
 							]
 						},
 						{
 							img: 'Frame3.svg',
-							title: 'Top Instructors',
-							agenda: [
+							definition: 'Top Instructors',
+							description: [
 								'Get trained by Product Experts from world leading companies.',
 							]
 						},
 						{
 							img: 'Frame4.svg',
-							title: 'Get Certified',
-							agenda: [
+							definition: 'Get Certified',
+							description: [
 								'Get certified and propel your product management career forward.',
 							]
 						},

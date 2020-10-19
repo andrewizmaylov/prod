@@ -42,7 +42,7 @@ class StatmentController extends Controller
         ]);
 
         if($data) {
-            $data['course_id'] = Course::first()->id;
+            $data['course_id'] = $request['course_id'];
             Statment::create($data);
             
             return response(['message' => 'New Statment was created'], 201);

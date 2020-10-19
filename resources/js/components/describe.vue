@@ -2,74 +2,120 @@
 	<div class="max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12">
 		<div v-show="!edit_mode">
 			<div class="flex flex-wrap -m-4">
-				<pr_module v-for="course in courses" :key="course.id" :module="course" :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="editCourse($event)"></pr_module>
-				<pr_module :module="{img: '/img/module_add.svg'}" :action="'Create New Course'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="editCourse($event)"></pr_module>
+				<pr_module v-for="course in courses" :key="course.id" :module="course" :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
+				<pr_module :module="{img: '/img/module_add.svg'}" :action="'Create New Course'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
 			</div>
 		</div>
+
 		<section v-show="edit_mode">
+			<!-- top set of buttons -->
 			<div class="flex -mx-2">
 				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="initialize(course, 'course')" v-show="!editable">Edit entry</span>
-				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="clearCourse" v-show="editable">Cancel</span>
+				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="clearCourse" v-show="editable">All Courses</span>
 				
 				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="newCourse">New entry</span>
 			</div>
 			<!-- describe course section -->
-			<pr_course_intro :course="course" v-show="!editable"></pr_course_intro>
 			<section class="px-8 py-8 my-6 bg-gray-100">
-				<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(course)" v-show="editable">
+				<pr_course_intro :course="course" :lessonsCount="lessonsCount" :duration="duration" :students='students' v-show="!editable"></pr_course_intro>
+				<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(course)" v-show="editable" @input="setPath($event.target.name)">
 					<label class="block text-2xl text-gray-800 mb-2 ml-2">Course description</label>
-					<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="New Course title" v-model="course.title">
-					<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="subtitle" type="text" placeholder="Subtitle" v-model="course.subtitle">
-					<textarea name="description" rows="9" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="course.description">Say something about the New Course...</textarea>
-
-					<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">{{btn}} Course</button>	
+					<input name="course" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="New Course title" v-model="course.title">
+					<input name="course" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="subtitle" type="text" placeholder="Subtitle" v-model="course.subtitle">
+					<textarea name="course" rows="9" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="course.description">Say something about the New Course...</textarea>
+					<div class="flex" v-show="model_name == 'course'">
+						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="this.model_name !=='course'">{{btn}} Course</button>	
+						<span class="text-main-color ml-auto px-4" @click="editable=false">Cancel</span>
+					</div>
 				</form>
 			</section>
 
-			<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(statment)">
-				<label class="block text-2xl text-gray-800 mb-2 ml-2">Statments</label>
-				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Statment definition" v-model="statment.definition">
-				<textarea name="agenda" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="agenda" v-model="statment.description">...</textarea>
+			<!-- describe statment section -->
+			<section class="px-8 py-8 my-6 bg-gray-100">
+				<div class="flex mb-4">
+					<span class="block text-2xl text-gray-800 mb-2 " :class="model_name == 'statment' ? 'mx-auto' : 'ml-2'">Statments section</span>
+					<span class="text-main-color px-4 ml-auto" @click="addEntry('statment')" v-if="model_name !== 'statment'">New Statment</span>
+				</div>
+				<div class="flex flex-wrap px-8">
+					<div v-for="item in statments" class="border w-1/2 flex flex-col items-center rounded border-indigo-200 mx-auto" @click="initialize(item, 'statment')">
+						<pr_course_statment :data="item" class="mb-8"></pr_course_statment>
+			            <div class="mt-4 mb-6">
+				          <span class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color">Edit Statment
+				            <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+				              <path d="M5 12h14"></path>
+				              <path d="M12 5l7 7-7 7"></path>
+				            </svg>
+				          </span>
+			            </div>
+					</div>
+				</div>
+				<form class="w-4/5 mx-auto mt-6 mb-16" @submit.prevent="createStatment()" @input="setPath($event.target.name)" v-show="model_name == 'statment'">
+					<input name="statment" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Statment definition" v-model="statment.definition">
+					<textarea name="statment" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="agenda" v-model="statment.description">...</textarea>
+					<div class="flex">
+						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.course.id" >{{btn}} Statment</button>
+						<span class="text-main-color ml-auto px-4" @click="rebuild()">Cancel</span>
+						<span class="text-main-color px-4" @click="addEntry('statment')">New Statment</span>
+					</div>
+				</form>
+			</section>
 
-				<button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">{{btn}} Statment</button>
-			</form>
+			<!-- describe shapetrs and lessons section -->
+			<section class="px-8 py-8 my-6 bg-gray-100">
+				<div class="flex mb-4">
+					<span class="block text-2xl text-gray-800 mb-2 " :class="model_name == 'chapter' ? 'mx-auto' : 'ml-2'">Chapters/Lessons section</span>
+					<span class="text-main-color px-4 ml-auto" @click="addEntry('chapter')" v-if="model_name !== 'chapter'">New Chapter</span>
+				</div>
+				<pr_course_content :content="chapters" :isAdmin=true @newLesson="newLesson($event)" @editLesson="editLesson($event)" @editChapter="editChapter($event)" @chapterSelected="chapterSelected($event)" class="-mt-12"></pr_course_content>
+				<form class="w-4/5 mx-auto mb-16" @submit.prevent="createChapter()" v-show="model_name == 'chapter'" @input="setPath($event.target.name)">
+					<input name="chapter" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter title" v-model="chapter.title">
+					<input name="chapter" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter description" v-model="chapter.description">
+					<div class="flex">
+						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.course.id" >{{btn}} Chapter</button>
+						<span class="text-main-color ml-auto px-4" @click="rebuild()">Cancel</span>
+						<span class="text-main-color px-4" @click="addEntry('chapter')">New Chapter</span>
+					</div>
+				</form>
 
-			<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(chapter)">
-				<label class="block text-2xl text-gray-800 mb-2 ml-2">Chapter</label>
-				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter title" v-model="chapter.title">
-				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter description" v-model="chapter.description">
+				<form class="w-4/5 mx-auto mb-16" @submit.prevent="createLesson()" v-show="model_name == 'lesson'" @input="setPath($event.target.name)">
+					<label class="block text-2xl text-gray-800 mb-2 ml-2">Lessons</label>
+					<input name="lesson" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson number" v-model="lesson.number">
+					<input name="lesson" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson title" v-model="lesson.title">
+					<textarea name="lesson" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="lesson.description">...</textarea>
+					<input name="lesson" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson url" v-model="lesson.url">
+					<input name="lesson" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="duration" v-model="lesson.duration">
+					<div class="flex">
+						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.chapter.id">{{btn}} Lesson</button>
+						<span class="text-main-color ml-auto px-4" @click="rebuild()">Cancel</span>
+						<span class="text-main-color px-4" @click="addEntry('lesson')">New Lesson</span>
+					</div>
+				</form>
+			</section>
 
-				<button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">Add Statment</button>
-			</form>
-
-			<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(lesson)">
-				<label class="block text-2xl text-gray-800 mb-2 ml-2">Lessons</label>
-				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson number" v-model="lesson.number">
-				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson title" v-model="lesson.title">
-				<textarea name="agenda" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="lesson.description">...</textarea>
-				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Lesson url" v-model="lesson.url">
-				<input class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="duration" v-model="lesson.duration">
-				
-				<button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">Add Statment</button>
-			</form>
 		</section>
 	</div>
 </template>
 <script>
 	import pr_module from './pr_module.vue';
 	import pr_course_intro from './pr_course_intro.vue';
+	import pr_course_statment from './pr_course_statment.vue';
+	import pr_course_content from './pr_course_content.vue';
+	
+	import basic_logic from './basic_logic.vue';
 
 	export default {
 		name: 'describe',
-		components: {pr_module, pr_course_intro},
+		extends: basic_logic,
+		components: {pr_module, pr_course_intro, pr_course_statment, pr_course_content},
 		data() {
 			return {
-				course: new Form ({}),
 
+				courses: [],
 				statments: [],
 				chapters: [],
 				lessons: [],
 
+				course: new Form ({}),
 				statment: new Form({}),
 				chapter: new Form({}),
 				lesson: new Form({}),
@@ -81,36 +127,13 @@
 
 				edit_mode: false,
 				editable: false,
-				courses: [],
 			}
 		},
-		created(){
-			axios.get('/admin/course_get')
-			    .then(response => {
-			        console.log(response);
-				    this.courses = response.data;
-			    })
-			    .catch(error => {
-			        console.log(error);
-			    });
-		},
 		methods: {
-			editCourse(input_data) {
-				if(input_data.id) {
-			    	this.course = input_data;
-			    	this.edit_mode = true;
-			    	axios.get('/course/'+input_data.id)
-			    	    .then(response => {
-			    	    	this.statments = response.data[0];
-			    	    	this.chapters = response.data[1];
-			    	    })
-			    	    .catch(error => {
-			    	        console.log(error);
-			    	    });
-				} else {
-					this.newCourse();
-				}
-				
+			addEntry(entry) {
+				this.model_name=entry;
+				this[entry] = {};
+				this.filter(this[entry], this.model_name);
 			},
 			newCourse() {
 				this.clearCourse();
@@ -118,8 +141,33 @@
 				this.editable = true;
 				this.path = '/admin/create_course';
 			},
+			newLesson(data) {
+				this.chapter = data[0];
+				this.lesson = {};
+				this.model_name = 'lesson';
+				this.edit_mode = true;
+				this.editable = true;
+				this.path = '/admin/create_lesson';
+			},
+			editLesson(data) {
+				this.lesson = data;
+				this.model_name = 'lesson';
+				this.edit_mode = true;
+				this.editable = true;
+				this.path = '/admin/update_lesson';
+			},
+			editChapter(data) {
+				this.chapter = data;
+				this.model_name = 'chapter';
+				this.edit_mode = true;
+				this.editable = true;
+				this.path = '/admin/update_chapter';
+			},
 			clearCourse() {
 				this.course = {};
+				this.clearForm();
+			},
+			clearForm() {
 				this.statments = [];
 				this.chapters = [];
 				this.lessons = [];
@@ -129,27 +177,79 @@
 				this.model = '';
 				this.btn = '';
 			},
+			clearModel(model) {
+				this[model] = {};
+				this.setPath(model);
+			},
 			initialize(model, model_name) {
-				this.model_name = model_name;
 				this.editable = true;
-				if(model.id) {
-					this.path = '/admin/update_'+this.model_name+'/'+model.id;
+				this.filter(model, model_name);
+				// this.edit_mode = true;
+				this[model_name] = model;
+				this.setPath(model_name);		
+			},
+			// filter array make only editable show
+			filter(model, model_name) {
+				let name = model_name+'s';
+				console.log(name);
+				return this[name] = this[name].filter(i => i.id == model.id);
+			},
+			// rebuild array after chanceling filter
+			rebuild() {
+				this[this.model_name] = {};
+				this.model_name = '';
+				this.btn = 'Create New '
+				this.updateModels();
+			},
+			chapterSelected(data) {
+				this.chapter = data;
+			},
+			setPath(model_name) {
+				this.model_name = model_name;
+				if(this[model_name].id) {
+					this.path = '/admin/update_'+this.model_name+'/'+this[model_name].id;
 					this.btn = 'Update ';
 				} else {
-					this.path = '/admin/create_'+this.model;
+					this.path = '/admin/create_'+model_name;
 					this.btn = 'Create New ';
-				}			
+				}	
 			},
-			addRecord(data) {
-				axios.post(this.path, data)
+			createCourse() {
+				axios.post(this.path, this.course)
 				    .then(response => {
-				        console.log(response);
-				        // this.clearForm();
+				    	console.log(response.data);
+				        if (!this.course.id) {
+				        	this.course.id = response.data.last_insert_id;
+				        }
 				    })
 				    .catch(error => {
 				        console.log(error);
 				    });
 			},
+			createStatment() {
+				this.statment.course_id = this.course.id;
+				this.addRecord(this.statment);
+			},
+			createChapter() {
+				this.chapter.course_id = this.course.id;
+				this.addRecord(this.chapter);
+			},
+			createLesson() {
+				this.lesson.chapter_id = this.chapter.id;
+				this.addRecord(this.lesson);
+			},
+			addRecord(data) {
+				axios.post(this.path, data)
+				    .then(response => {
+				    	console.log(response.data);
+				    	this.clearModel(this.model_name);
+				    	this.updateModels();
+				    })
+				    .catch(error => {
+				        console.log(error);
+				    });
+			},
+
 
 		}
 	}

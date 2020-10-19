@@ -43,13 +43,18 @@ class LessonController extends Controller
             'url' => 'required',
             'duration' => 'required',
         ]);
-
+// dd($request['chapter_id']);
         if($data) {
-            $data['chapter_id'] = Chapter::first()->id;
+            $data['chapter_id'] = $request['chapter_id'];
             Lesson::create($data);
 
             return response(['message' => "Lesson was added to chapter {$data['chapter_id']}"], 201);
         }
+    }
+
+    public function byChapter($id)
+    {
+        return Chapter::find($id)->lessons;
     }
 
     /**
