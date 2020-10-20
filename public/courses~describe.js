@@ -18,7 +18,7 @@ __webpack_require__.r(__webpack_exports__);
       lessons: [],
       lessonsCount: '',
       duration: '',
-      students: 256,
+      students: '',
       course: new Form({}),
       statment: new Form({}),
       chapter: new Form({}),
@@ -279,9 +279,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_course_statment',
-  props: ['data']
+  props: ['data', 'isAdmin'],
+  methods: {
+    changeImage: function changeImage(data) {
+      var _this = this;
+
+      alert(data);
+      var formData = new FormData();
+      formData.append('file', this.$refs.myFiles.files[0]);
+      axios.post('/change_image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        // window.location.reload();
+        console.log(response.data.new_image);
+        _this.img = response.data;
+        console.log(_this.img.new_image); // window.location.replace('/#/account/info');
+      });
+    },
+    editStatment: function editStatment() {
+      this.$emit('editStatment');
+    }
+  }
 });
 
 /***/ }),
@@ -321,12 +358,77 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_module',
-  props: ['module', 'action'],
+  props: ['module', 'action', 'isAdmin'],
+  data: function data() {
+    return {
+      course: {}
+    };
+  },
+  created: function created() {
+    this.course = this.module;
+  },
   methods: {
     select: function select() {
-      this.$emit('select', this.module);
+      this.$emit('select', this.module); // console.log(this.module.id);
+    },
+    selected: function selected(event) {
+      // console.log(event);
+      var fd = new FormData();
+      fd.append('file', event.target.files[0]);
+      console.log(fd);
+      axios.post('/change_image', fd).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    changeImage: function changeImage(id) {
+      // let course = this.module;
+      console.log('course.id before: ', this.course.id);
+      console.log('id from a method: ', id);
+      var formData = new FormData();
+      formData.append('file', this.$refs.myFiles.files[0]);
+      console.log(formData); // formData.append('id', this.module.id);
+      // console.log(formData);
+      // axios.post('/change_image', formData, {
+      //        headers: {
+      //          'Content-Type': 'multipart/form-data'
+      //        }
+      // })
+      // 	.then(response => {
+      // console.log('course.id: ', this.course.id);
+      // console.log('-----');
+      // 		this.updateCourse(response.data.new_image);
+      // 		// window.location.reload();
+      // 	})
+    },
+    updateCourse: function updateCourse(image) {
+      console.log('this.course.id');
+      console.log(this.module.id);
+      console.log(image);
+      this.course.img = image;
+      console.log(this.course); // axios.post('/admin/update_course/'+this.course.id, this.course)
+      //     .then(response => {
+      //         console.log(response);
+      //     })
+      //     .catch(error => {
+      //         console.log(error);
+      //     });
     }
   }
 });
@@ -831,7 +933,7 @@ var render = function() {
               _vm._v(" "),
               _c("span", { staticClass: "ml-2 text-xs text-gray-700" }, [
                 _vm._v(
-                  _vm._s(_vm.students) +
+                  _vm._s(_vm.course.students_enroll) +
                     " students enrolled this course all over the world"
                 )
               ])
@@ -912,10 +1014,53 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "flex flex-col lg:w-1/4 md:w-1/2 sm:w-2/3 mx-auto my-6 p-2"
+      staticClass:
+        "flex flex-col lg:w-1/4 md:w-1/2 sm:w-2/3 mx-auto my-6 p-2 items-center"
     },
     [
+      _c(
+        "form",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.isAdmin,
+              expression: "isAdmin"
+            }
+          ],
+          attrs: { enctype: "multipart/form-data" }
+        },
+        [
+          _c("label", { attrs: { for: "file" } }, [
+            _c("img", {
+              staticClass: "w-48 h-48 mx-auto",
+              attrs: { src: "/img/" + _vm.data.img }
+            })
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            ref: "myFiles",
+            staticClass: "hidden",
+            attrs: { id: "file", type: "file" },
+            on: {
+              change: function($event) {
+                return _vm.changeImage("statment")
+              }
+            }
+          })
+        ]
+      ),
+      _vm._v(" "),
       _c("img", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.isAdmin,
+            expression: "!isAdmin"
+          }
+        ],
         staticClass: "w-48 h-48 mx-auto",
         attrs: { src: "/img/" + _vm.data.img, alt: "" }
       }),
@@ -932,7 +1077,54 @@ var render = function() {
             [_vm._v(_vm._s(_vm.data.description))]
           )
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.isAdmin,
+              expression: "isAdmin"
+            }
+          ],
+          staticClass: "mt-4 mb-6",
+          on: { click: _vm.editStatment }
+        },
+        [
+          _c(
+            "span",
+            {
+              staticClass:
+                "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
+            },
+            [
+              _vm._v("Edit Statment\n                "),
+              _c(
+                "svg",
+                {
+                  staticClass: "w-4 h-4 ml-2",
+                  attrs: {
+                    viewBox: "0 0 24 24",
+                    stroke: "currentColor",
+                    "stroke-width": "2",
+                    fill: "none",
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round"
+                  }
+                },
+                [
+                  _c("path", { attrs: { d: "M5 12h14" } }),
+                  _vm._v(" "),
+                  _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
+                ]
+              )
+            ]
+          )
+        ]
+      )
     ]
   )
 }
@@ -964,69 +1156,158 @@ var render = function() {
       {
         staticClass:
           "relative h-full rounded-lg overflow-hidden border border-indigo-200",
-        staticStyle: { "box-shadow": "rgb(67 110 167 / 9%) 4px 7px 13px 1px" },
-        on: {
-          click: function($event) {
-            return _vm.select()
-          }
-        }
+        staticStyle: { "box-shadow": "rgb(67 110 167 / 9%) 4px 7px 13px 1px" }
       },
       [
-        _c("img", {
-          staticClass: "lg:h-48 md:h-36 w-full object-cover object-center",
-          attrs: { src: _vm.module.img, alt: "blog" }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "flex flex-col justify-around px-6" }, [
-          _c("div", { staticClass: "py-8 mb-8" }, [
-            _c(
-              "h1",
-              { staticClass: "text-lg font-medium text-gray-900 mb-3" },
-              [_vm._v(_vm._s(_vm.module.title))]
-            ),
-            _vm._v(" "),
-            _c("span", { staticClass: "font-medium text-gray-900 mb-3" }, [
-              _vm._v(_vm._s(_vm.module.subtitle))
-            ]),
-            _vm._v(" "),
-            _c("p", {
-              staticClass: "leading-relaxed mb-3",
-              domProps: { innerHTML: _vm._s(_vm.module.description) }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "absolute bottom-0 mt-4 mb-6" }, [
-            _c(
-              "span",
+        _c(
+          "form",
+          {
+            directives: [
               {
-                staticClass:
-                  "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
-              },
+                name: "show",
+                rawName: "v-show",
+                value: _vm.isAdmin,
+                expression: "isAdmin"
+              }
+            ],
+            attrs: { enctype: "multipart/form-data" }
+          },
+          [
+            _c(
+              "label",
+              { staticClass: "relevant flex flex-col", attrs: { for: "file" } },
               [
-                _vm._v(_vm._s(_vm.action) + "\n\t\t            "),
+                _c("img", {
+                  staticClass:
+                    "lg:h-48 md:h-36 w-full object-cover object-center",
+                  attrs: { src: "/img/" + _vm.module.img, alt: "blog" }
+                }),
+                _vm._v(" "),
                 _c(
-                  "svg",
+                  "div",
                   {
-                    staticClass: "w-4 h-4 ml-2",
-                    attrs: {
-                      viewBox: "0 0 24 24",
-                      stroke: "currentColor",
-                      "stroke-width": "2",
-                      fill: "none",
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round"
-                    }
+                    staticClass: "absolute flex items-center ml-4 mt-2",
+                    staticStyle: { color: "#7eaeb7" }
                   },
                   [
-                    _c("path", { attrs: { d: "M5 12h14" } }),
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "w-6 h-6 mr-2",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 20 20",
+                          fill: "currentColor"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z",
+                            "clip-rule": "evenodd"
+                          }
+                        })
+                      ]
+                    ),
                     _vm._v(" "),
-                    _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
+                    _c("span", { staticClass: "text-lg" }, [
+                      _vm._v("Change image")
+                    ])
                   ]
                 )
               ]
-            )
-          ])
-        ])
+            ),
+            _vm._v(" "),
+            _c("input", {
+              ref: "myFiles",
+              staticClass: "hidden",
+              attrs: { id: "file", type: "file" },
+              on: { change: _vm.selected }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("img", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.isAdmin,
+              expression: "!isAdmin"
+            }
+          ],
+          staticClass: "lg:h-48 md:h-36 w-full object-cover object-center",
+          attrs: { src: "/img/" + _vm.module.img, alt: "blog" },
+          on: {
+            click: function($event) {
+              return _vm.changeImage()
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "flex flex-col justify-around px-6",
+            on: {
+              click: function($event) {
+                return _vm.select()
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "py-8 mb-8" }, [
+              _c(
+                "h1",
+                { staticClass: "text-lg font-medium text-gray-900 mb-3" },
+                [_vm._v(_vm._s(_vm.module.title))]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "font-medium text-gray-900 mb-3" }, [
+                _vm._v(_vm._s(_vm.module.subtitle))
+              ]),
+              _vm._v(" "),
+              _c("p", {
+                staticClass: "leading-relaxed mb-3",
+                domProps: { innerHTML: _vm._s(_vm.module.description) }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "absolute bottom-0 mt-4 mb-6" }, [
+              _c(
+                "span",
+                {
+                  staticClass:
+                    "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
+                },
+                [
+                  _vm._v(_vm._s(_vm.action) + "\n\t\t            "),
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "w-4 h-4 ml-2",
+                      attrs: {
+                        viewBox: "0 0 24 24",
+                        stroke: "currentColor",
+                        "stroke-width": "2",
+                        fill: "none",
+                        "stroke-linecap": "round",
+                        "stroke-linejoin": "round"
+                      }
+                    },
+                    [
+                      _c("path", { attrs: { d: "M5 12h14" } }),
+                      _vm._v(" "),
+                      _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
+                    ]
+                  )
+                ]
+              )
+            ])
+          ]
+        )
       ]
     )
   ])

@@ -52,7 +52,7 @@
 						slug: '4',
 						img: '/img/module4.svg',
 						name: 'Product Manager Level-up',
-						description: 'This cours eis the best way to bring your PM skills to new heights!',
+						description: 'This course is the best way to bring your PM skills to new heights!',
 					},
 					{
 						loaded: false,

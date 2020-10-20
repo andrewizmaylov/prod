@@ -9,7 +9,7 @@
 
 				lessonsCount: '',
 				duration: '',
-				students: 256,
+				students: '',
 
 				course: new Form ({}),
 				statment: new Form({}),

@@ -19,7 +19,7 @@ class CreateCoursesTable extends Migration
             $table->string('subtitle');
             $table->text('description');
             $table->integer('students_enroll')->unsigned()->nullable();
-            $table->string('img')->default('/img/module_generic.svg');
+            $table->string('img')->default('module_generic.svg');
             $table->timestamps();
         });
     }

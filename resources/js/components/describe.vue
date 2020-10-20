@@ -2,8 +2,8 @@
 	<div class="max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12">
 		<div v-show="!edit_mode">
 			<div class="flex flex-wrap -m-4">
-				<pr_module v-for="course in courses" :key="course.id" :module="course" :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
-				<pr_module :module="{img: '/img/module_add.svg'}" :action="'Create New Course'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
+				<pr_module v-for="course in courses" :key="course.id" :module="course" :isAdmin=true :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
+				<pr_module :module="{img: '/module_add.svg'}" :action="'Create New Course'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
 			</div>
 		</div>
 
@@ -28,6 +28,7 @@
 						<span class="text-main-color ml-auto px-4" @click="editable=false">Cancel</span>
 					</div>
 				</form>
+
 			</section>
 
 			<!-- describe statment section -->
@@ -37,17 +38,7 @@
 					<span class="text-main-color px-4 ml-auto" @click="addEntry('statment')" v-if="model_name !== 'statment'">New Statment</span>
 				</div>
 				<div class="flex flex-wrap px-8">
-					<div v-for="item in statments" class="border w-1/2 flex flex-col items-center rounded border-indigo-200 mx-auto" @click="initialize(item, 'statment')">
-						<pr_course_statment :data="item" class="mb-8"></pr_course_statment>
-			            <div class="mt-4 mb-6">
-				          <span class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color">Edit Statment
-				            <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-				              <path d="M5 12h14"></path>
-				              <path d="M12 5l7 7-7 7"></path>
-				            </svg>
-				          </span>
-			            </div>
-					</div>
+					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true class="mb-8" @editStatment="initialize(item, 'statment')"></pr_course_statment>
 				</div>
 				<form class="w-4/5 mx-auto mt-6 mb-16" @submit.prevent="createStatment()" @input="setPath($event.target.name)" v-show="model_name == 'statment'">
 					<input name="statment" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Statment definition" v-model="statment.definition">
@@ -127,6 +118,8 @@
 
 				edit_mode: false,
 				editable: false,
+
+				img: {},
 			}
 		},
 		methods: {
@@ -256,7 +249,26 @@
 				        console.log(error);
 				    });
 			},
+			changeImage(data) {
+				alert(data);
+				let formData = new FormData();
 
+				formData.append('file', this.$refs.myFiles.files[0]);
+
+				axios.post('/change_image', formData, {
+			        headers: {
+			          'Content-Type': 'multipart/form-data'
+			        }
+				})
+					.then(response => {
+						// window.location.reload();
+						console.log(response.data.new_image);
+						this.img = response.data;
+						console.log(this.img.new_image);
+
+						// window.location.replace('/#/account/info');
+					})
+			},
 
 		}
 	}

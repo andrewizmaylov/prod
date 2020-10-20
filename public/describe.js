@@ -102,15 +102,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -142,7 +133,8 @@ __webpack_require__.r(__webpack_exports__);
       // path for axios call
       btn: '',
       edit_mode: false,
-      editable: false
+      editable: false,
+      img: {}
     };
   },
   methods: {
@@ -272,6 +264,23 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    changeImage: function changeImage(data) {
+      var _this3 = this;
+
+      alert(data);
+      var formData = new FormData();
+      formData.append('file', this.$refs.myFiles.files[0]);
+      axios.post('/change_image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        // window.location.reload();
+        console.log(response.data.new_image);
+        _this3.img = response.data;
+        console.log(_this3.img.new_image); // window.location.replace('/#/account/info');
+      });
     }
   }
 });
@@ -318,7 +327,7 @@ var render = function() {
                 return _c("pr_module", {
                   key: course.id,
                   staticClass: "p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto",
-                  attrs: { module: course, action: "Edit info" },
+                  attrs: { module: course, isAdmin: true, action: "Edit info" },
                   on: {
                     select: function($event) {
                       return _vm.loadCourse($event)
@@ -330,7 +339,7 @@ var render = function() {
               _c("pr_module", {
                 staticClass: "p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto",
                 attrs: {
-                  module: { img: "/img/module_add.svg" },
+                  module: { img: "/module_add.svg" },
                   action: "Create New Course"
                 },
                 on: {
@@ -625,59 +634,18 @@ var render = function() {
               "div",
               { staticClass: "flex flex-wrap px-8" },
               _vm._l(_vm.statments, function(item) {
-                return _c(
-                  "div",
-                  {
-                    staticClass:
-                      "border w-1/2 flex flex-col items-center rounded border-indigo-200 mx-auto",
-                    on: {
-                      click: function($event) {
-                        return _vm.initialize(item, "statment")
-                      }
+                return _c("pr_course_statment", {
+                  key: item.id,
+                  staticClass: "mb-8",
+                  attrs: { data: item, isAdmin: true },
+                  on: {
+                    editStatment: function($event) {
+                      return _vm.initialize(item, "statment")
                     }
-                  },
-                  [
-                    _c("pr_course_statment", {
-                      staticClass: "mb-8",
-                      attrs: { data: item }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "mt-4 mb-6" }, [
-                      _c(
-                        "span",
-                        {
-                          staticClass:
-                            "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
-                        },
-                        [
-                          _vm._v("Edit Statment\n\t\t\t            "),
-                          _c(
-                            "svg",
-                            {
-                              staticClass: "w-4 h-4 ml-2",
-                              attrs: {
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor",
-                                "stroke-width": "2",
-                                fill: "none",
-                                "stroke-linecap": "round",
-                                "stroke-linejoin": "round"
-                              }
-                            },
-                            [
-                              _c("path", { attrs: { d: "M5 12h14" } }),
-                              _vm._v(" "),
-                              _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
-                            ]
-                          )
-                        ]
-                      )
-                    ])
-                  ],
-                  1
-                )
+                  }
+                })
               }),
-              0
+              1
             ),
             _vm._v(" "),
             _c(

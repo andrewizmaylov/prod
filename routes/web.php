@@ -35,6 +35,8 @@ Route::post('/admin/update_lesson/{id}', 'App\Http\Controllers\LessonController@
 
 Route::get('/lessons/{id}', 'App\Http\Controllers\LessonController@byChapter');
 
+Route::post('/change_image', 'App\Http\Controllers\ImageController@changeImage');
+
 Route::get('/verstka', function () {
 	return view('verstka');
 });

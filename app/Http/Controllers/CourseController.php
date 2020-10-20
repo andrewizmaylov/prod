@@ -89,7 +89,7 @@ class CourseController extends Controller
             $duration += ($time[0]*60) + ($time[1]) + ($time[2]/60);
         }
             
-        return [$statments, $chapters, $lessonsCount, $duration];
+        return [$statments, $chapters, $lessonsCount, round($duration)];
 
     }
 
