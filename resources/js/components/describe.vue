@@ -1,9 +1,9 @@
 <template>
-	<div class="max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12">
+	<div class="relevant max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12">
 		<div v-show="!edit_mode">
 			<div class="flex flex-wrap -m-4">
-				<pr_module v-for="course in courses" :key="course.id" :module="course" :isAdmin=true :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
-				<pr_module :module="{img: '/module_add.svg'}" :action="'Create New Course'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
+				<pr_module v-for="course in courses" :key="course.id" :module="course" :isAdmin=true :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)" @showForm="showForm($event, 'course')"></pr_module>
+				<pr_module :module="{img: '/module_add.svg'}" :action="'Create New Course'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"  v-show="!show_form"></pr_module>
 			</div>
 		</div>
 
@@ -38,7 +38,7 @@
 					<span class="text-main-color px-4 ml-auto" @click="addEntry('statment')" v-if="model_name !== 'statment'">New Statment</span>
 				</div>
 				<div class="flex flex-wrap px-8">
-					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true class="mb-8" @editStatment="initialize(item, 'statment')"></pr_course_statment>
+					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true class="mb-8" @editStatment="initialize(item, 'statment')" @showForm="showForm($event, 'statment')"></pr_course_statment>
 				</div>
 				<form class="w-4/5 mx-auto mt-6 mb-16" @submit.prevent="createStatment()" @input="setPath($event.target.name)" v-show="model_name == 'statment'">
 					<input name="statment" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Statment definition" v-model="statment.definition">
@@ -84,6 +84,12 @@
 			</section>
 
 		</section>
+
+
+			<form class="max-w-xs mx-auto my-4 border border-indigo-200 rounded " enctype="multipart/form-data" action="/change_image" method="post" v-show="show_form">
+				<input type="file" name="file" @change="changeImage" class="py-6 px-8 ">
+			</form>
+
 	</div>
 </template>
 <script>
@@ -100,17 +106,6 @@
 		components: {pr_module, pr_course_intro, pr_course_statment, pr_course_content},
 		data() {
 			return {
-
-				// courses: [],
-				// statments: [],
-				// chapters: [],
-				// lessons: [],
-
-				// course: new Form ({}),
-				// statment: new Form({}),
-				// chapter: new Form({}),
-				// lesson: new Form({}),
-
 				model_name: '', //model name for define the axios route (course, statment etc)
 				method: '',
 				path: '', // path for axios call
@@ -119,7 +114,7 @@
 				edit_mode: false,
 				editable: false,
 
-				img: {},
+				show_form: false,
 			}
 		},
 		methods: {
@@ -249,11 +244,16 @@
 				        console.log(error);
 				    });
 			},
-			changeImage(data) {
-				alert(data);
+
+			showForm(event, model_name) {
+				this.show_form = true;
+				this.initialize(event, model_name);
+			},
+			changeImage(event) {
+
 				let formData = new FormData();
 
-				formData.append('file', this.$refs.myFiles.files[0]);
+				formData.append('file', event.target.files[0]);
 
 				axios.post('/change_image', formData, {
 			        headers: {
@@ -261,12 +261,11 @@
 			        }
 				})
 					.then(response => {
-						// window.location.reload();
-						console.log(response.data.new_image);
-						this.img = response.data;
-						console.log(this.img.new_image);
+						this[this.model_name].img = response.data.new_image;
+						this.addRecord(this[this.model_name]);
 
-						// window.location.replace('/#/account/info');
+						window.location.reload();
+
 					})
 			},
 

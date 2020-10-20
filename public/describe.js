@@ -102,6 +102,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -118,14 +124,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      // courses: [],
-      // statments: [],
-      // chapters: [],
-      // lessons: [],
-      // course: new Form ({}),
-      // statment: new Form({}),
-      // chapter: new Form({}),
-      // lesson: new Form({}),
       model_name: '',
       //model name for define the axios route (course, statment etc)
       method: '',
@@ -134,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
       btn: '',
       edit_mode: false,
       editable: false,
-      img: {}
+      show_form: false
     };
   },
   methods: {
@@ -265,21 +263,25 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    changeImage: function changeImage(data) {
+    showForm: function showForm(event, model_name) {
+      this.show_form = true;
+      this.initialize(event, model_name);
+    },
+    changeImage: function changeImage(event) {
       var _this3 = this;
 
-      alert(data);
       var formData = new FormData();
-      formData.append('file', this.$refs.myFiles.files[0]);
+      formData.append('file', event.target.files[0]);
       axios.post('/change_image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (response) {
-        // window.location.reload();
-        console.log(response.data.new_image);
-        _this3.img = response.data;
-        console.log(_this3.img.new_image); // window.location.replace('/#/account/info');
+        _this3[_this3.model_name].img = response.data.new_image;
+
+        _this3.addRecord(_this3[_this3.model_name]);
+
+        window.location.reload();
       });
     }
   }
@@ -304,7 +306,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12" },
+    { staticClass: "relevant max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12" },
     [
       _c(
         "div",
@@ -331,12 +333,23 @@ var render = function() {
                   on: {
                     select: function($event) {
                       return _vm.loadCourse($event)
+                    },
+                    showForm: function($event) {
+                      return _vm.showForm($event, "course")
                     }
                   }
                 })
               }),
               _vm._v(" "),
               _c("pr_module", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.show_form,
+                    expression: "!show_form"
+                  }
+                ],
                 staticClass: "p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto",
                 attrs: {
                   module: { img: "/module_add.svg" },
@@ -641,6 +654,9 @@ var render = function() {
                   on: {
                     editStatment: function($event) {
                       return _vm.initialize(item, "statment")
+                    },
+                    showForm: function($event) {
+                      return _vm.showForm($event, "statment")
                     }
                   }
                 })
@@ -1157,6 +1173,34 @@ var render = function() {
             ],
             1
           )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.show_form,
+              expression: "show_form"
+            }
+          ],
+          staticClass:
+            "max-w-xs mx-auto my-4 border border-indigo-200 rounded ",
+          attrs: {
+            enctype: "multipart/form-data",
+            action: "/change_image",
+            method: "post"
+          }
+        },
+        [
+          _c("input", {
+            staticClass: "py-6 px-8 ",
+            attrs: { type: "file", name: "file" },
+            on: { change: _vm.changeImage }
+          })
         ]
       )
     ]

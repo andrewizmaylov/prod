@@ -9,7 +9,7 @@ class ImageController extends Controller
 {
     public function changeImage(Request $request)
     {
-	    dd($request->all());
+	    // dd($request->all());
 	    if($request->hasFile('file')) {
 			$newImage = $request->file('file');
 			$filename = date("Y-m-d_").$newImage->getClientOriginalName();

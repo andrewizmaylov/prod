@@ -2,21 +2,20 @@
 	<div class="">
         <div class="relative h-full rounded-lg overflow-hidden border border-indigo-200" style="box-shadow: rgb(67 110 167 / 9%) 4px 7px 13px 1px;">
 
-        	<form enctype="multipart/form-data" v-show="isAdmin" >
-        		<label for="file" class="relevant flex flex-col">
+        	<div v-show="isAdmin" class="relevant flex flex-col" @click="showForm">
 		        	<img class="lg:h-48 md:h-36 w-full object-cover object-center" :src="'/img/'+module.img" alt="blog">
 		        	<div class="absolute flex items-center ml-4 mt-2" style="color: #7eaeb7;">
+
 		        		<svg  class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
 		        		  <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
 		        		</svg>
-		        		<span class="text-lg">Change image</span>
+		        		<span class="text-sm">Change image</span>
+
 		        	</div>
-        		</label>
-        		<!-- <input id="file" type="file" ref="myFiles" @change="changeImage(module.id)" class="hidden"/> -->
-        		<input id="file" type="file" ref="myFiles" @change="selected" class="hidden"/>
-        	</form>
-        	<img class="lg:h-48 md:h-36 w-full object-cover object-center" :src="'/img/'+module.img" alt="blog" v-show="!isAdmin" @click="changeImage()">
-        	<div class="flex flex-col justify-around px-6" @click="select()">
+        	</div>
+        	<img class="lg:h-48 md:h-36 w-full object-cover object-center" :src="'/img/'+module.img" alt="blog" v-show="!isAdmin">
+
+        	<div class="flex flex-col justify-around px-6" @click="select">
         		<div class="py-8 mb-8">
         			<h1 class="text-lg font-medium text-gray-900 mb-3">{{module.title}}</h1>
         			<span class="font-medium text-gray-900 mb-3">{{module.subtitle}}</span>
@@ -44,74 +43,20 @@
 		data() {
 			return {
 				course: {},
+				newImage: '',
 			}
 		},
 		created() {
 			this.course = this.module;
 		},
-
 		methods: {
 			select() {
 				this.$emit('select', this.module);
 				// console.log(this.module.id);
 			},
-			selected(event) {
-				// console.log(event);
-				let fd = new FormData();
-				fd.append('file', event.target.files[0]	);
-				console.log(fd);
-				axios.post('/change_image', fd)
-				    .then(response => {
-				        console.log(response);
-				    })
-				    .catch(error => {
-				        console.log(error);
-				    });
-				 
+			showForm() {
+				this.$emit('showForm', this.module);
 			},
-			changeImage(id) {
-				// let course = this.module;
-				console.log('course.id before: ', this.course.id);
-				console.log('id from a method: ', id);
-
-				let formData = new FormData();
-
-				formData.append('file', this.$refs.myFiles.files[0]);
-				console.log(formData);
-				// formData.append('id', this.module.id);
-				// console.log(formData);
-
-				// axios.post('/change_image', formData, {
-			 //        headers: {
-			 //          'Content-Type': 'multipart/form-data'
-			 //        }
-				// })
-				// 	.then(response => {
-				// console.log('course.id: ', this.course.id);
-				// console.log('-----');
-				// 		this.updateCourse(response.data.new_image);
-
-
-				// 		// window.location.reload();
-				// 	})
-			},
-			updateCourse(image) {
-				console.log('this.course.id');
-				console.log(this.module.id);
-				console.log(image);
-				this.course.img = image;
-				console.log(this.course);
-
-
-				// axios.post('/admin/update_course/'+this.course.id, this.course)
-				//     .then(response => {
-				//         console.log(response);
-				//     })
-				//     .catch(error => {
-				//         console.log(error);
-				//     });
-				 
-			}
 		},
 
 	}

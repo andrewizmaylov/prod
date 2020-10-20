@@ -294,26 +294,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_course_statment',
   props: ['data', 'isAdmin'],
   methods: {
-    changeImage: function changeImage(data) {
-      var _this = this;
-
-      alert(data);
-      var formData = new FormData();
-      formData.append('file', this.$refs.myFiles.files[0]);
-      axios.post('/change_image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        // window.location.reload();
-        console.log(response.data.new_image);
-        _this.img = response.data;
-        console.log(_this.img.new_image); // window.location.replace('/#/account/info');
-      });
+    showForm: function showForm() {
+      this.$emit('showForm', this.data);
     },
     editStatment: function editStatment() {
       this.$emit('editStatment');
@@ -370,13 +360,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_module',
   props: ['module', 'action', 'isAdmin'],
   data: function data() {
     return {
-      course: {}
+      course: {},
+      newImage: ''
     };
   },
   created: function created() {
@@ -386,49 +376,8 @@ __webpack_require__.r(__webpack_exports__);
     select: function select() {
       this.$emit('select', this.module); // console.log(this.module.id);
     },
-    selected: function selected(event) {
-      // console.log(event);
-      var fd = new FormData();
-      fd.append('file', event.target.files[0]);
-      console.log(fd);
-      axios.post('/change_image', fd).then(function (response) {
-        console.log(response);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    changeImage: function changeImage(id) {
-      // let course = this.module;
-      console.log('course.id before: ', this.course.id);
-      console.log('id from a method: ', id);
-      var formData = new FormData();
-      formData.append('file', this.$refs.myFiles.files[0]);
-      console.log(formData); // formData.append('id', this.module.id);
-      // console.log(formData);
-      // axios.post('/change_image', formData, {
-      //        headers: {
-      //          'Content-Type': 'multipart/form-data'
-      //        }
-      // })
-      // 	.then(response => {
-      // console.log('course.id: ', this.course.id);
-      // console.log('-----');
-      // 		this.updateCourse(response.data.new_image);
-      // 		// window.location.reload();
-      // 	})
-    },
-    updateCourse: function updateCourse(image) {
-      console.log('this.course.id');
-      console.log(this.module.id);
-      console.log(image);
-      this.course.img = image;
-      console.log(this.course); // axios.post('/admin/update_course/'+this.course.id, this.course)
-      //     .then(response => {
-      //         console.log(response);
-      //     })
-      //     .catch(error => {
-      //         console.log(error);
-      //     });
+    showForm: function showForm() {
+      this.$emit('showForm', this.module);
     }
   }
 });
@@ -1019,7 +968,7 @@ var render = function() {
     },
     [
       _c(
-        "form",
+        "div",
         {
           directives: [
             {
@@ -1029,26 +978,47 @@ var render = function() {
               expression: "isAdmin"
             }
           ],
-          attrs: { enctype: "multipart/form-data" }
+          staticClass: "relevant flex flex-col",
+          on: { click: _vm.showForm }
         },
         [
-          _c("label", { attrs: { for: "file" } }, [
-            _c("img", {
-              staticClass: "w-48 h-48 mx-auto",
-              attrs: { src: "/img/" + _vm.data.img }
-            })
-          ]),
+          _c("img", {
+            staticClass: "w-48 h-48 mx-auto",
+            attrs: { src: "/img/" + _vm.data.img, alt: "" }
+          }),
           _vm._v(" "),
-          _c("input", {
-            ref: "myFiles",
-            staticClass: "hidden",
-            attrs: { id: "file", type: "file" },
-            on: {
-              change: function($event) {
-                return _vm.changeImage("statment")
-              }
-            }
-          })
+          _c(
+            "div",
+            {
+              staticClass: "absolute flex items-center ml-4 mt-2",
+              staticStyle: { color: "#7eaeb7" }
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "w-6 h-6 mr-2",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 20 20",
+                    fill: "currentColor"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z",
+                      "clip-rule": "evenodd"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-sm" }, [_vm._v("Change image")])
+            ]
+          )
         ]
       ),
       _vm._v(" "),
@@ -1160,7 +1130,7 @@ var render = function() {
       },
       [
         _c(
-          "form",
+          "div",
           {
             directives: [
               {
@@ -1170,62 +1140,47 @@ var render = function() {
                 expression: "isAdmin"
               }
             ],
-            attrs: { enctype: "multipart/form-data" }
+            staticClass: "relevant flex flex-col",
+            on: { click: _vm.showForm }
           },
           [
+            _c("img", {
+              staticClass: "lg:h-48 md:h-36 w-full object-cover object-center",
+              attrs: { src: "/img/" + _vm.module.img, alt: "blog" }
+            }),
+            _vm._v(" "),
             _c(
-              "label",
-              { staticClass: "relevant flex flex-col", attrs: { for: "file" } },
+              "div",
+              {
+                staticClass: "absolute flex items-center ml-4 mt-2",
+                staticStyle: { color: "#7eaeb7" }
+              },
               [
-                _c("img", {
-                  staticClass:
-                    "lg:h-48 md:h-36 w-full object-cover object-center",
-                  attrs: { src: "/img/" + _vm.module.img, alt: "blog" }
-                }),
-                _vm._v(" "),
                 _c(
-                  "div",
+                  "svg",
                   {
-                    staticClass: "absolute flex items-center ml-4 mt-2",
-                    staticStyle: { color: "#7eaeb7" }
+                    staticClass: "w-6 h-6 mr-2",
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 20 20",
+                      fill: "currentColor"
+                    }
                   },
                   [
-                    _c(
-                      "svg",
-                      {
-                        staticClass: "w-6 h-6 mr-2",
-                        attrs: {
-                          xmlns: "http://www.w3.org/2000/svg",
-                          viewBox: "0 0 20 20",
-                          fill: "currentColor"
-                        }
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            "fill-rule": "evenodd",
-                            d:
-                              "M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z",
-                            "clip-rule": "evenodd"
-                          }
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "text-lg" }, [
-                      _vm._v("Change image")
-                    ])
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z",
+                        "clip-rule": "evenodd"
+                      }
+                    })
                   ]
-                )
+                ),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-sm" }, [_vm._v("Change image")])
               ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              ref: "myFiles",
-              staticClass: "hidden",
-              attrs: { id: "file", type: "file" },
-              on: { change: _vm.selected }
-            })
+            )
           ]
         ),
         _vm._v(" "),
@@ -1239,23 +1194,14 @@ var render = function() {
             }
           ],
           staticClass: "lg:h-48 md:h-36 w-full object-cover object-center",
-          attrs: { src: "/img/" + _vm.module.img, alt: "blog" },
-          on: {
-            click: function($event) {
-              return _vm.changeImage()
-            }
-          }
+          attrs: { src: "/img/" + _vm.module.img, alt: "blog" }
         }),
         _vm._v(" "),
         _c(
           "div",
           {
             staticClass: "flex flex-col justify-around px-6",
-            on: {
-              click: function($event) {
-                return _vm.select()
-              }
-            }
+            on: { click: _vm.select }
           },
           [
             _c("div", { staticClass: "py-8 mb-8" }, [

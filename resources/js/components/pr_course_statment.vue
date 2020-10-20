@@ -1,12 +1,16 @@
 <template>
 	<div class="flex flex-col lg:w-1/4 md:w-1/2 sm:w-2/3 mx-auto my-6 p-2 items-center" >
-        <form enctype="multipart/form-data" v-show="isAdmin">
-        	<label for="file">
-        	    <img :src="'/img/'+data.img" class="w-48 h-48 mx-auto" />
-        	</label>
+    	<div v-show="isAdmin" class="relevant flex flex-col" @click="showForm">
+			<img :src="'/img/'+data.img" alt="" class="w-48 h-48 mx-auto" >
+        	<div class="absolute flex items-center ml-4 mt-2" style="color: #7eaeb7;">
 
-        	<input id="file" type="file" ref="myFiles" @change="changeImage('statment')" class="hidden" />
-        </form>
+        		<svg  class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        		  <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        		</svg>
+        		<span class="text-sm">Change image</span>
+
+        	</div>
+    	</div>
 		<img :src="'/img/'+data.img" alt="" class="w-48 h-48 mx-auto" v-show="!isAdmin">
 		<div class="text-center my-4 font-medium">{{data.definition}}</div>
 		<div class="mx-2">
@@ -31,25 +35,8 @@
 		name: 'pr_course_statment',
 		props: ['data','isAdmin'],
 		methods: {
-			changeImage(data) {
-				alert(data);
-				let formData = new FormData();
-
-				formData.append('file', this.$refs.myFiles.files[0]);
-
-				axios.post('/change_image', formData, {
-			        headers: {
-			          'Content-Type': 'multipart/form-data'
-			        }
-				})
-					.then(response => {
-						// window.location.reload();
-						console.log(response.data.new_image);
-						this.img = response.data;
-						console.log(this.img.new_image);
-
-						// window.location.replace('/#/account/info');
-					})
+			showForm() {
+				this.$emit('showForm', this.data);
 			},
 			editStatment() {
 				this.$emit('editStatment');
