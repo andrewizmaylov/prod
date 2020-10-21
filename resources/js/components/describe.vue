@@ -13,19 +13,19 @@
 				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="initialize(course, 'course')" v-show="!editable">Edit Course</span>
 				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="clearCourse" v-show="editable">All Courses</span>
 				
-				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="newCourse">New Course</span>
+				<span class="w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white" @click="newCourse" :class="editable ? 'hidden' :'' ">New Course</span>
 			</div>
 			<!-- describe course section -->
 			<section class="mt-6">
-				<pr_course_intro :course="course" :lessonsCount="lessonsCount" :duration="duration" :students='students' v-show="!editable"></pr_course_intro>
-				<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(course)" v-show="editable" @input="setPath($event.target.name)">
+				<pr_course_intro :course="course" :lessonsCount="lessonsCount" :duration="duration" :students='students' v-show="model_name !== 'course'"></pr_course_intro>
+				<form class="w-4/5 mx-auto mb-16" @submit.prevent="addRecord(course)" v-show="model_name == 'course'" @input="setPath($event.target.name)">
 					<label class="block text-2xl text-gray-800 mb-2 ml-2">Course description</label>
 					<input name="course" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="New Course title" v-model="course.title">
 					<input name="course" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="subtitle" type="text" placeholder="Subtitle" v-model="course.subtitle">
 					<textarea name="course" rows="9" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="course.description">Say something about the New Course...</textarea>
 					<div class="flex" v-show="model_name == 'course'">
 						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="this.model_name !=='course'">{{btn}} Course</button>	
-						<span class="text-main-color ml-auto px-4" @click="editable=false">Cancel</span>
+						<span class="text-main-color ml-auto px-4" @click="cancelForm">Cancel</span>
 					</div>
 				</form>
 
@@ -40,19 +40,21 @@
 				<div class="flex flex-wrap px-8">
 					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true class="mb-8" @editStatment="initialize(item, 'statment')" @showForm="showForm($event, 'statment')"></pr_course_statment>
 				</div>
-				<form class="w-4/5 mx-auto mt-6 mb-16" @submit.prevent="createStatment()" @input="setPath($event.target.name)" v-show="model_name == 'statment'">
-					<input name="statment" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Statment definition" v-model="statment.definition">
-					<textarea name="statment" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="agenda" v-model="statment.description">...</textarea>
-					<div class="flex">
-						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.course.id" >{{btn}} Statment</button>
-						<span class="text-main-color ml-auto px-4" @click="rebuild()">Cancel</span>
-						<span class="text-main-color px-4" @click="addEntry('statment')">New Statment</span>
-					</div>
-				</form>
+				<section v-show="!show_form">
+					<form class="w-4/5 mx-auto mt-6 mb-16" @submit.prevent="createStatment()" @input="setPath($event.target.name)" v-show="model_name == 'statment'">
+						<input name="statment" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Statment definition" v-model="statment.definition">
+						<textarea name="statment" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="agenda" v-model="statment.description">...</textarea>
+						<div class="flex">
+							<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.course.id" >{{btn}} Statment</button>
+							<span class="text-main-color ml-auto px-4" @click="cancelForm">Cancel</span>
+							<span class="text-main-color px-4" @click="statment = {}">Clear Statment</span>
+						</div>
+					</form>
+				</section>
 			</section>
 
 			<!-- describe shapetrs and lessons section -->
-			<section class="px-8 py-8 my-6 bg-gray-100">
+			<section class="px-8 py-8 my-6 bg-gray-100" v-show="!show_form">
 				<div class="flex mb-4">
 					<span class="block text-2xl text-gray-800 mb-2 " :class="model_name == 'chapter' ? 'mx-auto' : 'ml-2'">Chapters/Lessons section</span>
 					<span class="text-main-color px-4 ml-auto" @click="addEntry('chapter')" v-if="model_name !== 'chapter'">New Chapter</span>
@@ -63,8 +65,8 @@
 					<input name="chapter" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter description" v-model="chapter.description">
 					<div class="flex">
 						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.course.id" >{{btn}} Chapter</button>
-						<span class="text-main-color ml-auto px-4" @click="rebuild()">Cancel</span>
-						<span class="text-main-color px-4" @click="addEntry('chapter')">New Chapter</span>
+						<span class="text-main-color ml-auto px-4" @click="cancelForm">Cancel</span>
+						<span class="text-main-color px-4" @click="chapter = {}">Clear Chapter</span>
 					</div>
 				</form>
 
@@ -77,8 +79,8 @@
 					<input name="lesson" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="duration" v-model="lesson.duration">
 					<div class="flex">
 						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.chapter.id">{{btn}} Lesson</button>
-						<span class="text-main-color ml-auto px-4" @click="rebuild()">Cancel</span>
-						<span class="text-main-color px-4" @click="addEntry('lesson')">New Lesson</span>
+						<span class="text-main-color ml-auto px-4" @click="cancelForm">Cancel</span>
+						<span class="text-main-color px-4" @click="lesson = {}">Clear Lesson</span>
 					</div>
 				</form>
 			</section>
@@ -86,8 +88,15 @@
 		</section>
 
 
-			<form class="max-w-xs mx-auto my-4 border border-indigo-200 rounded " enctype="multipart/form-data" action="/change_image" method="post" v-show="show_form">
-				<input type="file" name="file" @change="changeImage" class="py-6 px-8 ">
+			<form class="flex justify-center my-4" enctype="multipart/form-data" action="/change_image" method="post" v-show="show_form">
+				<input type="file" name="file" id="file" @change="changeImage" class="py-6 px-8 hidden">
+				<label for="file" class="flex items-center text-main-color text-sm py-2 px-4">
+					<span>Select new Image for {{this.model_name}}</span>
+					<svg class="w-6 h-6 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+					</svg>
+				</label>
+				<span class="text-main-color text-sm py-2 px-4" @click="cancelForm">Cancel</span>
 			</form>
 
 	</div>
@@ -115,23 +124,31 @@
 				editable: false,
 
 				show_form: false,
+				backup: [],
 			}
 		},
 		methods: {
 			newCourse() {
+				this.backup = this.courses;
 				this.clearCourse();
 				this.edit_mode = true;
 				this.editable = true;
+				this.model_name = 'course';
+				this.btn = 'Create New ';
 				this.path = '/admin/create_course';
 			},
 			clearCourse() {
 				this.course = {};
+				this.editable = false;
+				this.courses = this.backup;
 				this.clearForm();
 			},
 			clearForm() {
 				this.statments = [];
 				this.chapters = [];
 				this.lessons = [];
+				this.duration = '';
+				this.lessonsCount = '';
 				this.edit_mode = false;
 				this.editable = false;
 				this.path = '';
@@ -142,7 +159,6 @@
 				this[model] = {};
 				this.setPath(model);
 			},
-
 			newLesson(data) {
 				this.chapter = data[0];
 				this.lesson = {};
@@ -184,13 +200,14 @@
 			// filter array make only editable show
 			filter(model, model_name) {
 				let name = model_name+'s';
-				console.log(name);
+				this.backup = this[name];
 				return this[name] = this[name].filter(i => i.id == model.id);
 			},
 			// rebuild array after chanceling filter
 			rebuild() {
 				this[this.model_name] = {};
 				this.model_name = '';
+				this.editable = false;
 				this.btn = 'Create New '
 				this.updateModels();
 			},
@@ -248,6 +265,18 @@
 			showForm(event, model_name) {
 				this.show_form = true;
 				this.initialize(event, model_name);
+			},
+			cancelForm() {
+				this.editable = false;
+				this.show_form = false;
+				let name = this.model_name+'s';
+				console.log(this.model_name);
+				this[name] = this.backup;
+				this.backup = [];
+				if(this.model_name == 'course' && !this.course.id) {
+					this.edit_mode = false;
+				}
+				this.model_name = '';
 			},
 			changeImage(event) {
 

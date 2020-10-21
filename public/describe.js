@@ -108,6 +108,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -132,24 +141,32 @@ __webpack_require__.r(__webpack_exports__);
       btn: '',
       edit_mode: false,
       editable: false,
-      show_form: false
+      show_form: false,
+      backup: []
     };
   },
   methods: {
     newCourse: function newCourse() {
+      this.backup = this.courses;
       this.clearCourse();
       this.edit_mode = true;
       this.editable = true;
+      this.model_name = 'course';
+      this.btn = 'Create New ';
       this.path = '/admin/create_course';
     },
     clearCourse: function clearCourse() {
       this.course = {};
+      this.editable = false;
+      this.courses = this.backup;
       this.clearForm();
     },
     clearForm: function clearForm() {
       this.statments = [];
       this.chapters = [];
       this.lessons = [];
+      this.duration = '';
+      this.lessonsCount = '';
       this.edit_mode = false;
       this.editable = false;
       this.path = '';
@@ -199,7 +216,7 @@ __webpack_require__.r(__webpack_exports__);
     // filter array make only editable show
     filter: function filter(model, model_name) {
       var name = model_name + 's';
-      console.log(name);
+      this.backup = this[name];
       return this[name] = this[name].filter(function (i) {
         return i.id == model.id;
       });
@@ -208,6 +225,7 @@ __webpack_require__.r(__webpack_exports__);
     rebuild: function rebuild() {
       this[this.model_name] = {};
       this.model_name = '';
+      this.editable = false;
       this.btn = 'Create New ';
       this.updateModels();
     },
@@ -266,6 +284,20 @@ __webpack_require__.r(__webpack_exports__);
     showForm: function showForm(event, model_name) {
       this.show_form = true;
       this.initialize(event, model_name);
+    },
+    cancelForm: function cancelForm() {
+      this.editable = false;
+      this.show_form = false;
+      var name = this.model_name + 's';
+      console.log(this.model_name);
+      this[name] = this.backup;
+      this.backup = [];
+
+      if (this.model_name == 'course' && !this.course.id) {
+        this.edit_mode = false;
+      }
+
+      this.model_name = '';
     },
     changeImage: function changeImage(event) {
       var _this3 = this;
@@ -426,6 +458,7 @@ var render = function() {
               {
                 staticClass:
                   "w-1/2 px-6 py-2 bg-main-color mx-2 rounded text-center font-medium text-white",
+                class: _vm.editable ? "hidden" : "",
                 on: { click: _vm.newCourse }
               },
               [_vm._v("New Course")]
@@ -441,8 +474,8 @@ var render = function() {
                   {
                     name: "show",
                     rawName: "v-show",
-                    value: !_vm.editable,
-                    expression: "!editable"
+                    value: _vm.model_name !== "course",
+                    expression: "model_name !== 'course'"
                   }
                 ],
                 attrs: {
@@ -460,8 +493,8 @@ var render = function() {
                     {
                       name: "show",
                       rawName: "v-show",
-                      value: _vm.editable,
-                      expression: "editable"
+                      value: _vm.model_name == "course",
+                      expression: "model_name == 'course'"
                     }
                   ],
                   staticClass: "w-4/5 mx-auto mb-16",
@@ -600,11 +633,7 @@ var render = function() {
                         "span",
                         {
                           staticClass: "text-main-color ml-auto px-4",
-                          on: {
-                            click: function($event) {
-                              _vm.editable = false
-                            }
-                          }
+                          on: { click: _vm.cancelForm }
                         },
                         [_vm._v("Cancel")]
                       )
@@ -665,131 +694,156 @@ var render = function() {
             ),
             _vm._v(" "),
             _c(
-              "form",
+              "section",
               {
                 directives: [
                   {
                     name: "show",
                     rawName: "v-show",
-                    value: _vm.model_name == "statment",
-                    expression: "model_name == 'statment'"
+                    value: !_vm.show_form,
+                    expression: "!show_form"
                   }
-                ],
-                staticClass: "w-4/5 mx-auto mt-6 mb-16",
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.createStatment()
-                  },
-                  input: function($event) {
-                    return _vm.setPath($event.target.name)
-                  }
-                }
+                ]
               },
               [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.statment.definition,
-                      expression: "statment.definition"
-                    }
-                  ],
-                  staticClass:
-                    "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-                  attrs: {
-                    name: "statment",
-                    id: "title",
-                    type: "text",
-                    placeholder: "Statment definition"
-                  },
-                  domProps: { value: _vm.statment.definition },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.statment, "definition", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
                 _c(
-                  "textarea",
+                  "form",
                   {
                     directives: [
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.statment.description,
-                        expression: "statment.description"
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.model_name == "statment",
+                        expression: "model_name == 'statment'"
                       }
                     ],
-                    staticClass:
-                      "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-                    attrs: { name: "statment", rows: "2", id: "agenda" },
-                    domProps: { value: _vm.statment.description },
+                    staticClass: "w-4/5 mx-auto mt-6 mb-16",
                     on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.createStatment()
+                      },
                       input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.statment,
-                          "description",
-                          $event.target.value
-                        )
+                        return _vm.setPath($event.target.name)
                       }
                     }
                   },
-                  [_vm._v("...")]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex" }, [
-                  _c(
-                    "button",
-                    {
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.statment.definition,
+                          expression: "statment.definition"
+                        }
+                      ],
                       staticClass:
-                        "shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
-                      attrs: { type: "submit", disabled: !this.course.id }
-                    },
-                    [_vm._v(_vm._s(_vm.btn) + " Statment")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      staticClass: "text-main-color ml-auto px-4",
+                        "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                      attrs: {
+                        name: "statment",
+                        id: "title",
+                        type: "text",
+                        placeholder: "Statment definition"
+                      },
+                      domProps: { value: _vm.statment.definition },
                       on: {
-                        click: function($event) {
-                          return _vm.rebuild()
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.statment,
+                            "definition",
+                            $event.target.value
+                          )
                         }
                       }
-                    },
-                    [_vm._v("Cancel")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      staticClass: "text-main-color px-4",
-                      on: {
-                        click: function($event) {
-                          return _vm.addEntry("statment")
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "textarea",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.statment.description,
+                            expression: "statment.description"
+                          }
+                        ],
+                        staticClass:
+                          "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                        attrs: { name: "statment", rows: "2", id: "agenda" },
+                        domProps: { value: _vm.statment.description },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.statment,
+                              "description",
+                              $event.target.value
+                            )
+                          }
                         }
-                      }
-                    },
-                    [_vm._v("New Statment")]
-                  )
-                ])
+                      },
+                      [_vm._v("...")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
+                          attrs: { type: "submit", disabled: !this.course.id }
+                        },
+                        [_vm._v(_vm._s(_vm.btn) + " Statment")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "text-main-color ml-auto px-4",
+                          on: { click: _vm.cancelForm }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "text-main-color px-4",
+                          on: {
+                            click: function($event) {
+                              _vm.statment = {}
+                            }
+                          }
+                        },
+                        [_vm._v("Clear Statment")]
+                      )
+                    ])
+                  ]
+                )
               ]
             )
           ]),
           _vm._v(" "),
           _c(
             "section",
-            { staticClass: "px-8 py-8 my-6 bg-gray-100" },
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.show_form,
+                  expression: "!show_form"
+                }
+              ],
+              staticClass: "px-8 py-8 my-6 bg-gray-100"
+            },
             [
               _c("div", { staticClass: "flex mb-4" }, [
                 _c(
@@ -934,11 +988,7 @@ var render = function() {
                       "span",
                       {
                         staticClass: "text-main-color ml-auto px-4",
-                        on: {
-                          click: function($event) {
-                            return _vm.rebuild()
-                          }
-                        }
+                        on: { click: _vm.cancelForm }
                       },
                       [_vm._v("Cancel")]
                     ),
@@ -949,11 +999,11 @@ var render = function() {
                         staticClass: "text-main-color px-4",
                         on: {
                           click: function($event) {
-                            return _vm.addEntry("chapter")
+                            _vm.chapter = {}
                           }
                         }
                       },
-                      [_vm._v("New Chapter")]
+                      [_vm._v("Clear Chapter")]
                     )
                   ])
                 ]
@@ -1146,11 +1196,7 @@ var render = function() {
                       "span",
                       {
                         staticClass: "text-main-color ml-auto px-4",
-                        on: {
-                          click: function($event) {
-                            return _vm.rebuild()
-                          }
-                        }
+                        on: { click: _vm.cancelForm }
                       },
                       [_vm._v("Cancel")]
                     ),
@@ -1161,11 +1207,11 @@ var render = function() {
                         staticClass: "text-main-color px-4",
                         on: {
                           click: function($event) {
-                            return _vm.addEntry("lesson")
+                            _vm.lesson = {}
                           }
                         }
                       },
-                      [_vm._v("New Lesson")]
+                      [_vm._v("Clear Lesson")]
                     )
                   ])
                 ]
@@ -1187,8 +1233,7 @@ var render = function() {
               expression: "show_form"
             }
           ],
-          staticClass:
-            "max-w-xs mx-auto my-4 border border-indigo-200 rounded ",
+          staticClass: "flex justify-center my-4",
           attrs: {
             enctype: "multipart/form-data",
             action: "/change_image",
@@ -1197,10 +1242,57 @@ var render = function() {
         },
         [
           _c("input", {
-            staticClass: "py-6 px-8 ",
-            attrs: { type: "file", name: "file" },
+            staticClass: "py-6 px-8 hidden",
+            attrs: { type: "file", name: "file", id: "file" },
             on: { change: _vm.changeImage }
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass:
+                "flex items-center text-main-color text-sm py-2 px-4",
+              attrs: { for: "file" }
+            },
+            [
+              _c("span", [
+                _vm._v("Select new Image for " + _vm._s(this.model_name))
+              ]),
+              _vm._v(" "),
+              _c(
+                "svg",
+                {
+                  staticClass: "w-6 h-6 ml-2",
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    fill: "none",
+                    viewBox: "0 0 24 24",
+                    stroke: "currentColor"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "stroke-linecap": "round",
+                      "stroke-linejoin": "round",
+                      "stroke-width": "2",
+                      d:
+                        "M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"
+                    }
+                  })
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "text-main-color text-sm py-2 px-4",
+              on: { click: _vm.cancelForm }
+            },
+            [_vm._v("Cancel")]
+          )
         ]
       )
     ]

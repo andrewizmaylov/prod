@@ -13,7 +13,7 @@
 
 		        	</div>
         	</div>
-        	<img class="lg:h-48 md:h-36 w-full object-cover object-center" :src="'/img/'+module.img" alt="blog" v-show="!isAdmin">
+        	<img class="lg:h-48 md:h-36 w-full object-cover object-center" :src="'/img/'+module.img" alt="blog" v-show="!isAdmin" @click="select">
 
         	<div class="flex flex-col justify-around px-6" @click="select">
         		<div class="py-8 mb-8">
@@ -40,15 +40,6 @@
 	export default {
 		name: 'pr_module',
 		props: ['module', 'action', 'isAdmin'],
-		data() {
-			return {
-				course: {},
-				newImage: '',
-			}
-		},
-		created() {
-			this.course = this.module;
-		},
 		methods: {
 			select() {
 				this.$emit('select', this.module);

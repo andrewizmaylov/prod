@@ -294,15 +294,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_course_statment',
   props: ['data', 'isAdmin'],
+  data: function data() {
+    return {
+      form: true
+    };
+  },
   methods: {
     showForm: function showForm() {
+      this.form = false;
       this.$emit('showForm', this.data);
     },
     editStatment: function editStatment() {
@@ -363,15 +365,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_module',
   props: ['module', 'action', 'isAdmin'],
-  data: function data() {
-    return {
-      course: {},
-      newImage: ''
-    };
-  },
-  created: function created() {
-    this.course = this.module;
-  },
   methods: {
     select: function select() {
       this.$emit('select', this.module); // console.log(this.module.id);
@@ -978,47 +971,21 @@ var render = function() {
               expression: "isAdmin"
             }
           ],
-          staticClass: "relevant flex flex-col",
+          staticClass:
+            "flex flex-col items-center border border-indigo-200 rounded-md",
           on: { click: _vm.showForm }
         },
         [
-          _c("img", {
-            staticClass: "w-48 h-48 mx-auto",
-            attrs: { src: "/img/" + _vm.data.img, alt: "" }
-          }),
-          _vm._v(" "),
           _c(
-            "div",
-            {
-              staticClass: "absolute flex items-center ml-4 mt-2",
-              staticStyle: { color: "#7eaeb7" }
-            },
-            [
-              _c(
-                "svg",
-                {
-                  staticClass: "w-6 h-6 mr-2",
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    viewBox: "0 0 20 20",
-                    fill: "currentColor"
-                  }
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      "fill-rule": "evenodd",
-                      d:
-                        "M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z",
-                      "clip-rule": "evenodd"
-                    }
-                  })
-                ]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-sm" }, [_vm._v("Change image")])
-            ]
-          )
+            "span",
+            { staticClass: "text-sm mt-2", staticStyle: { color: "#7eaeb7" } },
+            [_vm._v("Click to change image")]
+          ),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "w-48 h-48 mx-auto p-4",
+            attrs: { src: "/img/" + _vm.data.img, alt: "" }
+          })
         ]
       ),
       _vm._v(" "),
@@ -1031,23 +998,9 @@ var render = function() {
             expression: "!isAdmin"
           }
         ],
-        staticClass: "w-48 h-48 mx-auto",
+        staticClass: "w-48 h-48 mx-auto p-4",
         attrs: { src: "/img/" + _vm.data.img, alt: "" }
       }),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-center my-4 font-medium" }, [
-        _vm._v(_vm._s(_vm.data.definition))
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mx-2" }, [
-        _c("ul", { staticClass: "mb-1 px-4" }, [
-          _c(
-            "li",
-            { staticClass: "list-none text-center text-sm text-gray-700" },
-            [_vm._v(_vm._s(_vm.data.description))]
-          )
-        ])
-      ]),
       _vm._v(" "),
       _c(
         "div",
@@ -1056,39 +1009,67 @@ var render = function() {
             {
               name: "show",
               rawName: "v-show",
-              value: _vm.isAdmin,
-              expression: "isAdmin"
+              value: _vm.form,
+              expression: "form"
             }
           ],
-          staticClass: "mt-4 mb-6",
-          on: { click: _vm.editStatment }
+          staticClass: "flex flex-col items-center"
         },
         [
+          _c("div", { staticClass: "my-4 font-medium" }, [
+            _vm._v(_vm._s(_vm.data.definition))
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mx-2" }, [
+            _c("ul", { staticClass: "mb-1 px-4" }, [
+              _c("li", { staticClass: "list-none text-sm text-gray-700" }, [
+                _vm._v(_vm._s(_vm.data.description))
+              ])
+            ])
+          ]),
+          _vm._v(" "),
           _c(
-            "span",
+            "div",
             {
-              staticClass:
-                "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.isAdmin,
+                  expression: "isAdmin"
+                }
+              ],
+              staticClass: "mt-4 mb-6",
+              on: { click: _vm.editStatment }
             },
             [
-              _vm._v("Edit Statment\n                "),
               _c(
-                "svg",
+                "span",
                 {
-                  staticClass: "w-4 h-4 ml-2",
-                  attrs: {
-                    viewBox: "0 0 24 24",
-                    stroke: "currentColor",
-                    "stroke-width": "2",
-                    fill: "none",
-                    "stroke-linecap": "round",
-                    "stroke-linejoin": "round"
-                  }
+                  staticClass:
+                    "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
                 },
                 [
-                  _c("path", { attrs: { d: "M5 12h14" } }),
-                  _vm._v(" "),
-                  _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
+                  _vm._v("Edit Statment\n\t                "),
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "w-4 h-4 ml-2",
+                      attrs: {
+                        viewBox: "0 0 24 24",
+                        stroke: "currentColor",
+                        "stroke-width": "2",
+                        fill: "none",
+                        "stroke-linecap": "round",
+                        "stroke-linejoin": "round"
+                      }
+                    },
+                    [
+                      _c("path", { attrs: { d: "M5 12h14" } }),
+                      _vm._v(" "),
+                      _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
+                    ]
+                  )
                 ]
               )
             ]
@@ -1194,7 +1175,8 @@ var render = function() {
             }
           ],
           staticClass: "lg:h-48 md:h-36 w-full object-cover object-center",
-          attrs: { src: "/img/" + _vm.module.img, alt: "blog" }
+          attrs: { src: "/img/" + _vm.module.img, alt: "blog" },
+          on: { click: _vm.select }
         }),
         _vm._v(" "),
         _c(
