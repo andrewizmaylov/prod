@@ -5,7 +5,7 @@
 			<img :src="'/img/'+data.img" alt="" class="w-48 h-48 mx-auto p-4" >
     	</div>
 		<img :src="'/img/'+data.img" alt="" class="w-48 h-48 mx-auto p-4" v-show="!isAdmin">
-		<div v-show="form" class="flex flex-col items-center">
+		<div v-show="!form" class="flex flex-col items-center">
 			<div class="my-4 font-medium">{{data.definition}}</div>
 			<div class="mx-2">
 				<ul class="mb-1 px-4">
@@ -29,15 +29,18 @@
 <script>
 	export default {
 		name: 'pr_course_statment',
-		props: ['data','isAdmin'],
+		props: ['data','isAdmin', 'hideForm'],
 		data() {
 			return {
-				form:true,
+				form: '',
 			}
+		},
+		updated() {
+			this.form = this.hideForm;
 		},
 		methods: {
 			showForm() {
-				this.form = false;
+				this.form = true;
 				this.$emit('showForm', this.data);
 			},
 			editStatment() {

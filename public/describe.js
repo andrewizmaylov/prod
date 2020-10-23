@@ -274,9 +274,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(this.path, data).then(function (response) {
         console.log(response.data);
 
-        _this2.clearModel(_this2.model_name);
-
         _this2.updateModels();
+
+        _this2.clearModel(_this2.model_name);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -289,11 +289,11 @@ __webpack_require__.r(__webpack_exports__);
       this.editable = false;
       this.show_form = false;
       var name = this.model_name + 's';
-      console.log(this.model_name);
       this[name] = this.backup;
       this.backup = [];
 
       if (this.model_name == 'course' && !this.course.id) {
+        console.log('exit from the form');
         this.edit_mode = false;
       }
 
@@ -313,7 +313,13 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.addRecord(_this3[_this3.model_name]);
 
-        window.location.reload();
+        if (_this3.model_name == 'course') {
+          window.location.reload();
+        }
+
+        _this3.updateModels();
+
+        _this3.cancelForm();
       });
     }
   }
@@ -679,7 +685,7 @@ var render = function() {
                 return _c("pr_course_statment", {
                   key: item.id,
                   staticClass: "mb-8",
-                  attrs: { data: item, isAdmin: true },
+                  attrs: { data: item, isAdmin: true, hideForm: false },
                   on: {
                     editStatment: function($event) {
                       return _vm.initialize(item, "statment")

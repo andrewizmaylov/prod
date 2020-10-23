@@ -38,7 +38,7 @@
 					<span class="text-main-color px-4 ml-auto" @click="addEntry('statment')" v-if="model_name !== 'statment'">New Statment</span>
 				</div>
 				<div class="flex flex-wrap px-8">
-					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true class="mb-8" @editStatment="initialize(item, 'statment')" @showForm="showForm($event, 'statment')"></pr_course_statment>
+					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true :hideForm=false class="mb-8" @editStatment="initialize(item, 'statment')" @showForm="showForm($event, 'statment')"></pr_course_statment>
 				</div>
 				<section v-show="!show_form">
 					<form class="w-4/5 mx-auto mt-6 mb-16" @submit.prevent="createStatment()" @input="setPath($event.target.name)" v-show="model_name == 'statment'">
@@ -254,8 +254,8 @@
 				axios.post(this.path, data)
 				    .then(response => {
 				    	console.log(response.data);
-				    	this.clearModel(this.model_name);
 				    	this.updateModels();
+				    	this.clearModel(this.model_name);
 				    })
 				    .catch(error => {
 				        console.log(error);
@@ -270,14 +270,15 @@
 				this.editable = false;
 				this.show_form = false;
 				let name = this.model_name+'s';
-				console.log(this.model_name);
 				this[name] = this.backup;
 				this.backup = [];
 				if(this.model_name == 'course' && !this.course.id) {
+					console.log('exit from the form');
 					this.edit_mode = false;
 				}
 				this.model_name = '';
 			},
+
 			changeImage(event) {
 
 				let formData = new FormData();
@@ -292,9 +293,11 @@
 					.then(response => {
 						this[this.model_name].img = response.data.new_image;
 						this.addRecord(this[this.model_name]);
-
-						window.location.reload();
-
+						if(this.model_name == 'course') {
+							window.location.reload();
+						}
+						this.updateModels();
+						this.cancelForm();
 					})
 			},
 

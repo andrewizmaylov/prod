@@ -296,15 +296,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_course_statment',
-  props: ['data', 'isAdmin'],
+  props: ['data', 'isAdmin', 'hideForm'],
   data: function data() {
     return {
-      form: true
+      form: ''
     };
+  },
+  updated: function updated() {
+    this.form = this.hideForm;
   },
   methods: {
     showForm: function showForm() {
-      this.form = false;
+      this.form = true;
       this.$emit('showForm', this.data);
     },
     editStatment: function editStatment() {
@@ -1009,8 +1012,8 @@ var render = function() {
             {
               name: "show",
               rawName: "v-show",
-              value: _vm.form,
-              expression: "form"
+              value: !_vm.form,
+              expression: "!form"
             }
           ],
           staticClass: "flex flex-col items-center"
