@@ -1,11 +1,20 @@
 <template>
 	<div class="flex flex-col lg:w-1/4 md:w-1/2 sm:w-2/3 mx-auto my-6 p-2 items-center" >
-    	<div v-show="isAdmin" class="flex flex-col items-center border border-indigo-200 rounded-md" @click="showForm">
-    		<span class="text-sm mt-2" style="color: #7eaeb7;">Click to change image</span>
-			<img :src="'/img/'+data.img" alt="" class="w-48 h-48 mx-auto p-4" >
+    	<div v-show="isAdmin" class="flex flex-col items-center border border-indigo-200 rounded-md">
+	    	<form class="flex justify-center my-4" enctype="multipart/form-data">
+
+	    		<input type="file" name="file" :id="'file_'+data.id" @change="changeImage" class="hidden">
+	    		<label :for="'file_'+data.id" class="flex flex-col items-center text-main-color text-sm py-2 px-4">
+		    		<span class="text-sm mt-2" style="color: #7eaeb7;">Click to change image</span>
+					<img :src="'/img/'+data.img" alt="" class="w-48 h-48 mx-auto p-4" >
+
+	    		</label>
+	    	</form>
+
     	</div>
+
 		<img :src="'/img/'+data.img" alt="" class="w-48 h-48 mx-auto p-4" v-show="!isAdmin">
-		<div v-show="!form" class="flex flex-col items-center">
+		<div class="flex flex-col items-center">
 			<div class="my-4 font-medium">{{data.definition}}</div>
 			<div class="mx-2">
 				<ul class="mb-1 px-4">
@@ -29,21 +38,29 @@
 <script>
 	export default {
 		name: 'pr_course_statment',
-		props: ['data','isAdmin', 'hideForm'],
-		data() {
-			return {
-				form: '',
-			}
-		},
-		updated() {
-			this.form = this.hideForm;
-		},
+		props: ['data', 'isAdmin'],
+
 		methods: {
-			showForm() {
-				this.form = true;
-				this.$emit('showForm', this.data);
+			record_file(data) {
+				console.log('file', event.target.files[0]);
+				console.log(this.data);
 			},
+			changeImage(event) {
+				let formData = new FormData();
+				formData.append('file', event.target.files[0]);
+
+				axios.post('/change_image', formData, {
+			        headers: {
+			          'Content-Type': 'multipart/form-data'
+			        }
+				})
+					.then(response => {
+						this.$emit('changeStatmentImg', response.data.new_image);
+					})
+			},
+
 			editStatment() {
+				console.log(this.data);
 				this.$emit('editStatment');
 			}
 		}

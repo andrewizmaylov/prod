@@ -201,6 +201,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // activate correspondent filled form to edit already existing row
     initialize: function initialize(model, model_name) {
+      console.log('model.id: ', model.id);
       this.editable = true;
       this.filter(model, model_name); // this.edit_mode = true;
 
@@ -299,28 +300,18 @@ __webpack_require__.r(__webpack_exports__);
 
       this.model_name = '';
     },
-    changeImage: function changeImage(event) {
-      var _this3 = this;
-
-      var formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      axios.post('/change_image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        _this3[_this3.model_name].img = response.data.new_image;
-
-        _this3.addRecord(_this3[_this3.model_name]);
-
-        if (_this3.model_name == 'course') {
-          window.location.reload();
-        }
-
-        _this3.updateModels();
-
-        _this3.cancelForm();
-      });
+    chmage: function chmage(item, model_name) {
+      console.log(item.id);
+      console.log(model_name);
+    },
+    changeImage: function changeImage(file_name, item, model_name) {
+      console.log(file_name);
+      console.log(item);
+      console.log(model_name);
+      this[model_name] = item;
+      this[model_name].img = file_name;
+      this.setPath(model_name);
+      this.addRecord(this[model_name]);
     }
   }
 });
@@ -371,9 +362,6 @@ var render = function() {
                   on: {
                     select: function($event) {
                       return _vm.loadCourse($event)
-                    },
-                    showForm: function($event) {
-                      return _vm.showForm($event, "course")
                     }
                   }
                 })
@@ -685,13 +673,13 @@ var render = function() {
                 return _c("pr_course_statment", {
                   key: item.id,
                   staticClass: "mb-8",
-                  attrs: { data: item, isAdmin: true, hideForm: false },
+                  attrs: { data: item, isAdmin: true },
                   on: {
                     editStatment: function($event) {
                       return _vm.initialize(item, "statment")
                     },
-                    showForm: function($event) {
-                      return _vm.showForm($event, "statment")
+                    changeStatmentImg: function($event) {
+                      return _vm.changeImage($event, item, "statment")
                     }
                   }
                 })
@@ -1224,80 +1212,6 @@ var render = function() {
               )
             ],
             1
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "form",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.show_form,
-              expression: "show_form"
-            }
-          ],
-          staticClass: "flex justify-center my-4",
-          attrs: {
-            enctype: "multipart/form-data",
-            action: "/change_image",
-            method: "post"
-          }
-        },
-        [
-          _c("input", {
-            staticClass: "py-6 px-8 hidden",
-            attrs: { type: "file", name: "file", id: "file" },
-            on: { change: _vm.changeImage }
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass:
-                "flex items-center text-main-color text-sm py-2 px-4",
-              attrs: { for: "file" }
-            },
-            [
-              _c("span", [
-                _vm._v("Select new Image for " + _vm._s(this.model_name))
-              ]),
-              _vm._v(" "),
-              _c(
-                "svg",
-                {
-                  staticClass: "w-6 h-6 ml-2",
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    fill: "none",
-                    viewBox: "0 0 24 24",
-                    stroke: "currentColor"
-                  }
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      "stroke-linecap": "round",
-                      "stroke-linejoin": "round",
-                      "stroke-width": "2",
-                      d:
-                        "M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"
-                    }
-                  })
-                ]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "text-main-color text-sm py-2 px-4",
-              on: { click: _vm.cancelForm }
-            },
-            [_vm._v("Cancel")]
           )
         ]
       )

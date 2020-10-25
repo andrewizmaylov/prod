@@ -2,7 +2,7 @@
 	<div class="relevant max-w-5xl lg:w-4/5 md:w-5/6 w-4/5 mx-auto mt-12">
 		<div v-show="!edit_mode">
 			<div class="flex flex-wrap -m-4">
-				<pr_module v-for="course in courses" :key="course.id" :module="course" :isAdmin=true :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)" @showForm="showForm($event, 'course')"></pr_module>
+				<pr_module v-for="course in courses" :key="course.id" :module="course" :isAdmin=true :action="'Edit info'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"></pr_module>
 				<pr_module :module="{img: '/module_add.svg'}" :action="'Create New Course'" class="p-4 lg:w-1/3 md:w-1/2 sm:w-2/3 mx-auto" @select="loadCourse($event)"  v-show="!show_form"></pr_module>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 					<span class="text-main-color px-4 ml-auto" @click="addEntry('statment')" v-if="model_name !== 'statment'">New Statment</span>
 				</div>
 				<div class="flex flex-wrap px-8">
-					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true :hideForm=false class="mb-8" @editStatment="initialize(item, 'statment')" @showForm="showForm($event, 'statment')"></pr_course_statment>
+					<pr_course_statment v-for="item in statments" :key="item.id" :data="item" :isAdmin=true class="mb-8" @editStatment="initialize(item, 'statment')" @changeStatmentImg="changeImage($event, item, 'statment')"></pr_course_statment>
 				</div>
 				<section v-show="!show_form">
 					<form class="w-4/5 mx-auto mt-6 mb-16" @submit.prevent="createStatment()" @input="setPath($event.target.name)" v-show="model_name == 'statment'">
@@ -88,7 +88,7 @@
 		</section>
 
 
-			<form class="flex justify-center my-4" enctype="multipart/form-data" action="/change_image" method="post" v-show="show_form">
+<!-- 			<form class="flex justify-center my-4" enctype="multipart/form-data" action="/change_image" method="post" v-show="show_form">
 				<input type="file" name="file" id="file" @change="changeImage" class="py-6 px-8 hidden">
 				<label for="file" class="flex items-center text-main-color text-sm py-2 px-4">
 					<span>Select new Image for {{this.model_name}}</span>
@@ -97,7 +97,7 @@
 					</svg>
 				</label>
 				<span class="text-main-color text-sm py-2 px-4" @click="cancelForm">Cancel</span>
-			</form>
+			</form> -->
 
 	</div>
 </template>
@@ -185,6 +185,7 @@
 
 			// activate correspondent filled form to edit already existing row
 			initialize(model, model_name) {
+				console.log('model.id: ', model.id);
 				this.editable = true;
 				this.filter(model, model_name);
 				// this.edit_mode = true;
@@ -278,27 +279,19 @@
 				}
 				this.model_name = '';
 			},
+			chmage(item, model_name) {
+				console.log(item.id);
+				console.log(model_name);			
+			},
+			changeImage(file_name, item, model_name) {
+				console.log(file_name);
+				console.log(item);
+				console.log(model_name);
 
-			changeImage(event) {
-
-				let formData = new FormData();
-
-				formData.append('file', event.target.files[0]);
-
-				axios.post('/change_image', formData, {
-			        headers: {
-			          'Content-Type': 'multipart/form-data'
-			        }
-				})
-					.then(response => {
-						this[this.model_name].img = response.data.new_image;
-						this.addRecord(this[this.model_name]);
-						if(this.model_name == 'course') {
-							window.location.reload();
-						}
-						this.updateModels();
-						this.cancelForm();
-					})
+				this[model_name] = item;
+				this[model_name].img = file_name;
+				this.setPath(model_name);
+				this.addRecord(this[model_name]);
 			},
 
 		}

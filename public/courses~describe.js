@@ -294,23 +294,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_course_statment',
-  props: ['data', 'isAdmin', 'hideForm'],
-  data: function data() {
-    return {
-      form: ''
-    };
-  },
-  updated: function updated() {
-    this.form = this.hideForm;
-  },
+  props: ['data', 'isAdmin'],
   methods: {
-    showForm: function showForm() {
-      this.form = true;
-      this.$emit('showForm', this.data);
+    record_file: function record_file(data) {
+      console.log('file', event.target.files[0]);
+      console.log(this.data);
+    },
+    changeImage: function changeImage(event) {
+      var _this = this;
+
+      var formData = new FormData();
+      formData.append('file', event.target.files[0]);
+      axios.post('/change_image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        _this.$emit('changeStatmentImg', response.data.new_image);
+      });
     },
     editStatment: function editStatment() {
+      console.log(this.data);
       this.$emit('editStatment');
     }
   }
@@ -975,20 +990,51 @@ var render = function() {
             }
           ],
           staticClass:
-            "flex flex-col items-center border border-indigo-200 rounded-md",
-          on: { click: _vm.showForm }
+            "flex flex-col items-center border border-indigo-200 rounded-md"
         },
         [
           _c(
-            "span",
-            { staticClass: "text-sm mt-2", staticStyle: { color: "#7eaeb7" } },
-            [_vm._v("Click to change image")]
-          ),
-          _vm._v(" "),
-          _c("img", {
-            staticClass: "w-48 h-48 mx-auto p-4",
-            attrs: { src: "/img/" + _vm.data.img, alt: "" }
-          })
+            "form",
+            {
+              staticClass: "flex justify-center my-4",
+              attrs: { enctype: "multipart/form-data" }
+            },
+            [
+              _c("input", {
+                staticClass: "hidden",
+                attrs: {
+                  type: "file",
+                  name: "file",
+                  id: "file_" + _vm.data.id
+                },
+                on: { change: _vm.changeImage }
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "flex flex-col items-center text-main-color text-sm py-2 px-4",
+                  attrs: { for: "file_" + _vm.data.id }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "text-sm mt-2",
+                      staticStyle: { color: "#7eaeb7" }
+                    },
+                    [_vm._v("Click to change image")]
+                  ),
+                  _vm._v(" "),
+                  _c("img", {
+                    staticClass: "w-48 h-48 mx-auto p-4",
+                    attrs: { src: "/img/" + _vm.data.img, alt: "" }
+                  })
+                ]
+              )
+            ]
+          )
         ]
       ),
       _vm._v(" "),
@@ -1005,80 +1051,66 @@ var render = function() {
         attrs: { src: "/img/" + _vm.data.img, alt: "" }
       }),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.form,
-              expression: "!form"
-            }
-          ],
-          staticClass: "flex flex-col items-center"
-        },
-        [
-          _c("div", { staticClass: "my-4 font-medium" }, [
-            _vm._v(_vm._s(_vm.data.definition))
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mx-2" }, [
-            _c("ul", { staticClass: "mb-1 px-4" }, [
-              _c("li", { staticClass: "list-none text-sm text-gray-700" }, [
-                _vm._v(_vm._s(_vm.data.description))
-              ])
+      _c("div", { staticClass: "flex flex-col items-center" }, [
+        _c("div", { staticClass: "my-4 font-medium" }, [
+          _vm._v(_vm._s(_vm.data.definition))
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mx-2" }, [
+          _c("ul", { staticClass: "mb-1 px-4" }, [
+            _c("li", { staticClass: "list-none text-sm text-gray-700" }, [
+              _vm._v(_vm._s(_vm.data.description))
             ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.isAdmin,
-                  expression: "isAdmin"
-                }
-              ],
-              staticClass: "mt-4 mb-6",
-              on: { click: _vm.editStatment }
-            },
-            [
-              _c(
-                "span",
-                {
-                  staticClass:
-                    "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
-                },
-                [
-                  _vm._v("Edit Statment\n\t                "),
-                  _c(
-                    "svg",
-                    {
-                      staticClass: "w-4 h-4 ml-2",
-                      attrs: {
-                        viewBox: "0 0 24 24",
-                        stroke: "currentColor",
-                        "stroke-width": "2",
-                        fill: "none",
-                        "stroke-linecap": "round",
-                        "stroke-linejoin": "round"
-                      }
-                    },
-                    [
-                      _c("path", { attrs: { d: "M5 12h14" } }),
-                      _vm._v(" "),
-                      _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
-                    ]
-                  )
-                ]
-              )
-            ]
-          )
-        ]
-      )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.isAdmin,
+                expression: "isAdmin"
+              }
+            ],
+            staticClass: "mt-4 mb-6",
+            on: { click: _vm.editStatment }
+          },
+          [
+            _c(
+              "span",
+              {
+                staticClass:
+                  "text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 main-color"
+              },
+              [
+                _vm._v("Edit Statment\n\t                "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "w-4 h-4 ml-2",
+                    attrs: {
+                      viewBox: "0 0 24 24",
+                      stroke: "currentColor",
+                      "stroke-width": "2",
+                      fill: "none",
+                      "stroke-linecap": "round",
+                      "stroke-linejoin": "round"
+                    }
+                  },
+                  [
+                    _c("path", { attrs: { d: "M5 12h14" } }),
+                    _vm._v(" "),
+                    _c("path", { attrs: { d: "M12 5l7 7-7 7" } })
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      ])
     ]
   )
 }
@@ -1254,14 +1286,13 @@ render._withStripped = true
 /*!*************************************************!*\
   !*** ./resources/js/components/basic_logic.vue ***!
   \*************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _basic_logic_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./basic_logic.vue?vue&type=script&lang=js& */ "./resources/js/components/basic_logic.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _basic_logic_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _basic_logic_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 var render, staticRenderFns
 
 
@@ -1291,7 +1322,7 @@ component.options.__file = "resources/js/components/basic_logic.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/components/basic_logic.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
