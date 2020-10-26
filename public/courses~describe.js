@@ -417,10 +417,7 @@ var render = function() {
       [
         _c(
           "div",
-          {
-            staticClass: "flex flex-col mx-auto",
-            class: _vm.isAdmin ? "w-full" : "lg:w-1/2 md:w-4/5 w-full "
-          },
+          { staticClass: "flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto" },
           [
             _vm.content.length > 0
               ? _c("span", { staticClass: "text-lg text-gray-800 my-4 pl-6" }, [
@@ -701,35 +698,7 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: !_vm.isAdmin,
-                expression: "!isAdmin"
-              }
-            ],
-            staticClass:
-              "flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto p-8 text-sm items-center"
-          },
-          [
-            _c(
-              "h2",
-              { staticClass: "text-lg text-gray-800 lg:mt-16 lg:-mb-4" },
-              [_vm._v("Related template from Product Star")]
-            ),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "w-3/4 h-auto",
-              attrs: { src: "/img/course_template.png", alt: "course_template" }
-            }),
-            _vm._v(" "),
-            _vm._m(0)
-          ]
-        )
+        _vm._m(0)
       ]
     )
   ])
@@ -739,24 +708,42 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "bg-white rounded p-4 shadow" }, [
-      _c("h2", [_vm._v("ManageMe - User Managment")]),
-      _vm._v(" "),
-      _c("p", { staticClass: "my-4 text-xs" }, [
-        _vm._v(
-          "\n\t\t\t\t\t\tWith ManageMe responsive template you can easily build user managment no-code apps with admin dashboard to manage users, their roles and permise...\n\t\t\t\t\t"
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass:
-            "border border-2 border-indigo-500 text-indigo-500 py-1 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded"
-        },
-        [_vm._v("35$")]
-      )
-    ])
+    return _c(
+      "div",
+      {
+        staticClass:
+          "flex flex-col mx-auto lg:w-1/2 md:w-4/5 w-full p-8 text-sm items-center"
+      },
+      [
+        _c("h2", { staticClass: "text-lg text-gray-800 lg:mt-16 lg:-mb-4" }, [
+          _vm._v("Related template from Product Star")
+        ]),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "w-3/4 h-auto",
+          attrs: { src: "/img/course_template.png", alt: "course_template" }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "bg-white rounded p-4 shadow" }, [
+          _c("h2", [_vm._v("ManageMe - User Managment")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "my-4 text-xs" }, [
+            _vm._v(
+              "\n\t\t\t\t\t\tWith ManageMe responsive template you can easily build user managment no-code apps with admin dashboard to manage users, their roles and permise...\n\t\t\t\t\t"
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass:
+                "border border-2 border-indigo-500 text-indigo-500 py-1 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded"
+            },
+            [_vm._v("35$")]
+          )
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true

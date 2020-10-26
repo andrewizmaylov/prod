@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-100 w-full">
 		<section class="container px-5 py-12 mx-auto lg:w-5/6 lg:flex block">
-			<div class="flex flex-col mx-auto" :class="isAdmin ? 'w-full' : 'lg:w-1/2 md:w-4/5 w-full '">
+			<div class="flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto">
 				<span class="text-lg text-gray-800 my-4 pl-6" v-if="content.length>0">Course content:</span>
  
 				<div v-for="item in content">
@@ -43,7 +43,7 @@
 				</div>
 
 			</div>
-			<div class="flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto p-8 text-sm items-center" v-show="!isAdmin">
+			<div class="flex flex-col mx-auto lg:w-1/2 md:w-4/5 w-full p-8 text-sm items-center">
 				<h2 class="text-lg text-gray-800 lg:mt-16 lg:-mb-4">Related template from Product Star</h2>
 				<img src="/img/course_template.png" alt="course_template" class="w-3/4 h-auto">
 				<div class="bg-white rounded p-4 shadow">
