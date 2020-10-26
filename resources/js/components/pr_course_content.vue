@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-100 w-full">
 		<section class="container px-5 py-12 mx-auto lg:w-5/6 lg:flex block">
-			<div class="flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto">
+			<div class="flex flex-col mx-auto" :class="isAdmin ? 'w-full' : 'lg:w-1/2 md:w-4/5 w-full '">
 				<span class="text-lg text-gray-800 my-4 pl-6" v-if="content.length>0">Course content:</span>
  
 				<div v-for="item in content">

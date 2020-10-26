@@ -417,7 +417,10 @@ var render = function() {
       [
         _c(
           "div",
-          { staticClass: "flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto" },
+          {
+            staticClass: "flex flex-col mx-auto",
+            class: _vm.isAdmin ? "w-full" : "lg:w-1/2 md:w-4/5 w-full "
+          },
           [
             _vm.content.length > 0
               ? _c("span", { staticClass: "text-lg text-gray-800 my-4 pl-6" }, [

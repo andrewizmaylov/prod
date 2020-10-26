@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Statment extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = ['definition', 'description', 'img', 'course_id'];
 
     public function course()
     {
