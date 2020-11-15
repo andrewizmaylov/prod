@@ -15,6 +15,7 @@
 				statment: new Form({}),
 				chapter: new Form({}),
 				lesson: new Form({}),
+				promo: new Form({}),
 
 				selected: [], // for users side determ which module is currently selected
 			}

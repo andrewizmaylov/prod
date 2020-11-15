@@ -117,6 +117,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -198,6 +212,13 @@ __webpack_require__.r(__webpack_exports__);
       this.edit_mode = true;
       this.editable = true;
       this.path = '/admin/update_chapter';
+    },
+    editPromo: function editPromo(data) {
+      this.promo = data;
+      this.model_name = 'promo';
+      this.edit_mode = true;
+      this.editable = true;
+      this.path = '/admin/update_promo';
     },
     // activate correspondent filled form to edit already existing row
     initialize: function initialize(model, model_name) {
@@ -282,13 +303,13 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    showForm: function showForm(event, model_name) {
-      this.show_form = true;
-      this.initialize(event, model_name);
-    },
+    // showForm(event, model_name) {
+    // 	this.show_form = true;
+    // 	this.initialize(event, model_name);
+    // },
     cancelForm: function cancelForm() {
-      this.editable = false;
-      this.show_form = false;
+      this.editable = false; // this.show_form = false;
+
       var name = this.model_name + 's';
       this[name] = this.backup;
       this.backup = [];
@@ -299,10 +320,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.model_name = '';
-    },
-    chmage: function chmage(item, model_name) {
-      console.log(item.id);
-      console.log(model_name);
     },
     changeImage: function changeImage(file_name, item, model_name) {
       console.log(file_name);
@@ -878,6 +895,9 @@ var render = function() {
                   editChapter: function($event) {
                     return _vm.editChapter($event)
                   },
+                  editPromo: function($event) {
+                    return _vm.editPromo($event)
+                  },
                   chapterSelected: function($event) {
                     return _vm.chapterSelected($event)
                   }
@@ -1171,6 +1191,213 @@ var render = function() {
                           return
                         }
                         _vm.$set(_vm.lesson, "duration", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
+                        attrs: { type: "submit", disabled: !this.chapter.id }
+                      },
+                      [_vm._v(_vm._s(_vm.btn) + " Lesson")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "text-main-color ml-auto px-4",
+                        on: { click: _vm.cancelForm }
+                      },
+                      [_vm._v("Cancel")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "text-main-color px-4",
+                        on: {
+                          click: function($event) {
+                            _vm.lesson = {}
+                          }
+                        }
+                      },
+                      [_vm._v("Clear Lesson")]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.model_name == "promo",
+                      expression: "model_name == 'promo'"
+                    }
+                  ],
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.createPromo($event)
+                    },
+                    input: function($event) {
+                      return _vm.setPath($event.target.name)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "block text-2xl text-gray-800 mb-2 ml-2" },
+                    [_vm._v("Describe Promo block")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.promo.header,
+                        expression: "promo.header"
+                      }
+                    ],
+                    staticClass:
+                      "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                    attrs: {
+                      name: "promo",
+                      id: "header",
+                      type: "text",
+                      placeholder: "Header"
+                    },
+                    domProps: { value: _vm.promo.header },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.promo, "header", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.promo.title,
+                        expression: "promo.title"
+                      }
+                    ],
+                    staticClass:
+                      "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                    attrs: {
+                      name: "promo",
+                      id: "title",
+                      type: "text",
+                      placeholder: "Title"
+                    },
+                    domProps: { value: _vm.promo.title },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.promo, "title", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "textarea",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.lesson.description,
+                          expression: "lesson.description"
+                        }
+                      ],
+                      staticClass:
+                        "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                      attrs: { name: "promo", rows: "2", id: "description" },
+                      domProps: { value: _vm.lesson.description },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.lesson,
+                            "description",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    },
+                    [_vm._v("...")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.promo.url,
+                        expression: "promo.url"
+                      }
+                    ],
+                    staticClass:
+                      "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                    attrs: {
+                      name: "promo",
+                      id: "url",
+                      type: "text",
+                      placeholder: "Promo url"
+                    },
+                    domProps: { value: _vm.promo.url },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.promo, "url", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.promo.btn,
+                        expression: "promo.btn"
+                      }
+                    ],
+                    staticClass:
+                      "mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                    attrs: {
+                      name: "promo",
+                      id: "btn",
+                      type: "text",
+                      placeholder: "button text"
+                    },
+                    domProps: { value: _vm.promo.btn },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.promo, "btn", $event.target.value)
                       }
                     }
                   }),

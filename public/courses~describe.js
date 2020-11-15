@@ -23,6 +23,7 @@ __webpack_require__.r(__webpack_exports__);
       statment: new Form({}),
       chapter: new Form({}),
       lesson: new Form({}),
+      promo: new Form({}),
       selected: [] // for users side determ which module is currently selected
 
     };
@@ -157,12 +158,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'pr_course_content',
   props: ['content', 'isAdmin'],
   data: function data() {
     return {
-      lessons: []
+      lessons: [],
+      promo: {}
     };
   },
   methods: {
@@ -193,6 +200,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     editChapter: function editChapter(chapter) {
       this.$emit('editChapter', chapter);
+    },
+    editPromo: function editPromo() {
+      this.$emit('editPromo', this.promo);
     }
   }
 });
@@ -417,7 +427,10 @@ var render = function() {
       [
         _c(
           "div",
-          { staticClass: "flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto" },
+          {
+            staticClass: "flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto",
+            class: _vm.isAdmin ? "p-4 " : ""
+          },
           [
             _vm.content.length > 0
               ? _c("span", { staticClass: "text-lg text-gray-800 my-4 pl-6" }, [
@@ -698,7 +711,66 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _vm._m(0)
+        _c(
+          "div",
+          {
+            staticClass:
+              "flex flex-col mx-auto lg:w-1/2 md:w-4/5 w-full p-8 text-sm items-center",
+            class: _vm.isAdmin
+              ? "border border-2 rounded-lg p-1 border-indigo-200 bg-white shadow-blueshadow"
+              : ""
+          },
+          [
+            _vm.isAdmin
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "flex ml-auto items-center",
+                    on: {
+                      click: function($event) {
+                        return _vm.editPromo()
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "h-4 w-4 text-gray-600 mr-2",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 20 20",
+                          fill: "currentColor"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" Edit Promo Section\n\t\t\t\t")
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "h2",
+              { staticClass: "text-lg text-gray-800 lg:mt-16 lg:-mb-4" },
+              [_vm._v("Related template from Product Star")]
+            ),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "w-3/4 h-auto",
+              attrs: { src: "/img/course_template.png", alt: "course_template" }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        )
       ]
     )
   ])
@@ -708,42 +780,24 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "flex flex-col mx-auto lg:w-1/2 md:w-4/5 w-full p-8 text-sm items-center"
-      },
-      [
-        _c("h2", { staticClass: "text-lg text-gray-800 lg:mt-16 lg:-mb-4" }, [
-          _vm._v("Related template from Product Star")
-        ]),
-        _vm._v(" "),
-        _c("img", {
-          staticClass: "w-3/4 h-auto",
-          attrs: { src: "/img/course_template.png", alt: "course_template" }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "bg-white rounded p-4 shadow" }, [
-          _c("h2", [_vm._v("ManageMe - User Managment")]),
-          _vm._v(" "),
-          _c("p", { staticClass: "my-4 text-xs" }, [
-            _vm._v(
-              "\n\t\t\t\t\t\tWith ManageMe responsive template you can easily build user managment no-code apps with admin dashboard to manage users, their roles and permise...\n\t\t\t\t\t"
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass:
-                "border border-2 border-indigo-500 text-indigo-500 py-1 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded"
-            },
-            [_vm._v("35$")]
-          )
-        ])
-      ]
-    )
+    return _c("div", { staticClass: "bg-white rounded p-4 shadow" }, [
+      _c("h2", [_vm._v("ManageMe - User Managment")]),
+      _vm._v(" "),
+      _c("p", { staticClass: "my-4 text-xs" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\tWith ManageMe responsive template you can easily build user managment no-code apps with admin dashboard to manage users, their roles and permise...\n\t\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass:
+            "border border-2 border-indigo-500 text-indigo-500 py-1 px-6 focus:outline-none hover:bg-indigo-600 hover:text-white rounded"
+        },
+        [_vm._v("35$")]
+      )
+    ])
   }
 ]
 render._withStripped = true

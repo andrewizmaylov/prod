@@ -9,6 +9,9 @@
       colors: {
         'main-color': '#3FA4BA',
       },
+      boxShadow: {
+        blueshadow: 'rgb(67 110 167 / 9%) 4px 7px 13px 1px ',
+      },
       spacing: {
         '1/1': '100%',
         '1/2': '50%',

@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-100 w-full">
 		<section class="container px-5 py-12 mx-auto lg:w-5/6 lg:flex block">
-			<div class="flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto">
+			<div class="flex flex-col lg:w-1/2 md:w-4/5 w-full mx-auto" :class="isAdmin ? 'p-4 ' : ''">
 				<span class="text-lg text-gray-800 my-4 pl-6" v-if="content.length>0">Course content:</span>
  
 				<div v-for="item in content">
@@ -43,7 +43,12 @@
 				</div>
 
 			</div>
-			<div class="flex flex-col mx-auto lg:w-1/2 md:w-4/5 w-full p-8 text-sm items-center">
+			<div class="flex flex-col mx-auto lg:w-1/2 md:w-4/5 w-full p-8 text-sm items-center" :class="isAdmin ? 'border border-2 rounded-lg p-1 border-indigo-200 bg-white shadow-blueshadow' : ''">
+				<span v-if=isAdmin @click="editPromo()" class="flex ml-auto items-center">
+					<svg class="h-4 w-4 text-gray-600 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+					  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+					</svg> Edit Promo Section
+				</span>
 				<h2 class="text-lg text-gray-800 lg:mt-16 lg:-mb-4">Related template from Product Star</h2>
 				<img src="/img/course_template.png" alt="course_template" class="w-3/4 h-auto">
 				<div class="bg-white rounded p-4 shadow">
@@ -64,6 +69,7 @@
 		data() {
 			return {
 				lessons: [],
+				promo: {},
 			}
 		},
 		methods: {
@@ -89,6 +95,9 @@
 			},
 			editChapter(chapter) {
 				this.$emit('editChapter', chapter);
+			},
+			editPromo() {
+				this.$emit('editPromo', this.promo);
 			},
 		},
 

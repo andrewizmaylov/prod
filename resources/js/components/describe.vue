@@ -59,7 +59,7 @@
 					<span class="block text-2xl text-gray-800 mb-2 " :class="model_name == 'chapter' ? 'mx-auto' : 'ml-2'">Chapters/Lessons section</span>
 					<span class="text-main-color px-4 ml-auto" @click="addEntry('chapter')" v-if="model_name !== 'chapter'">New Chapter</span>
 				</div>
-				<pr_course_content :content="chapters" :isAdmin=true @newLesson="newLesson($event)" @editLesson="editLesson($event)" @editChapter="editChapter($event)" @chapterSelected="chapterSelected($event)" class="-mt-12"></pr_course_content>
+				<pr_course_content :content="chapters" :isAdmin=true @newLesson="newLesson($event)" @editLesson="editLesson($event)" @editChapter="editChapter($event)"  @editPromo="editPromo($event)" @chapterSelected="chapterSelected($event)" class="-mt-12"></pr_course_content>
 				<form class="w-4/5 mx-auto mb-16" @submit.prevent="createChapter()" v-show="model_name == 'chapter'" @input="setPath($event.target.name)">
 					<input name="chapter" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter title" v-model="chapter.title">
 					<input name="chapter" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Chapter description" v-model="chapter.description">
@@ -82,6 +82,20 @@
 						<span class="text-main-color ml-auto px-4" @click="cancelForm">Cancel</span>
 						<span class="text-main-color px-4" @click="lesson = {}">Clear Lesson</span>
 					</div>
+				</form>
+
+				<form @submit.prevent='createPromo' v-show="model_name == 'promo'" @input="setPath($event.target.name)">
+					<label class="block text-2xl text-gray-800 mb-2 ml-2">Describe Promo block</label>
+					<input name="promo" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="header" type="text" placeholder="Header" v-model="promo.header">
+					<input name="promo" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" placeholder="Title" v-model="promo.title">
+					<textarea name="promo" rows="2" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" v-model="lesson.description">...</textarea>
+					<input name="promo" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="url" type="text" placeholder="Promo url" v-model="promo.url">
+					<input name="promo" class="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="btn" type="text" placeholder="button text" v-model="promo.btn">
+					<div class="flex">
+						<button class="shadow bg-main-color hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" :disabled="!this.chapter.id">{{btn}} Lesson</button>
+						<span class="text-main-color ml-auto px-4" @click="cancelForm">Cancel</span>
+						<span class="text-main-color px-4" @click="lesson = {}">Clear Lesson</span>
+					</div>					
 				</form>
 			</section>
 
@@ -183,6 +197,14 @@
 				this.path = '/admin/update_chapter';
 			},
 
+			editPromo(data) {
+				this.promo = data;
+				this.model_name = 'promo';
+				this.edit_mode = true;
+				this.editable = true;
+				this.path = '/admin/update_promo';
+			},
+
 			// activate correspondent filled form to edit already existing row
 			initialize(model, model_name) {
 				console.log('model.id: ', model.id);
@@ -263,13 +285,13 @@
 				    });
 			},
 
-			showForm(event, model_name) {
-				this.show_form = true;
-				this.initialize(event, model_name);
-			},
+			// showForm(event, model_name) {
+			// 	this.show_form = true;
+			// 	this.initialize(event, model_name);
+			// },
 			cancelForm() {
 				this.editable = false;
-				this.show_form = false;
+				// this.show_form = false;
 				let name = this.model_name+'s';
 				this[name] = this.backup;
 				this.backup = [];
@@ -279,10 +301,7 @@
 				}
 				this.model_name = '';
 			},
-			chmage(item, model_name) {
-				console.log(item.id);
-				console.log(model_name);			
-			},
+
 			changeImage(file_name, item, model_name) {
 				console.log(file_name);
 				console.log(item);
